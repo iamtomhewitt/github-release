@@ -7,11 +7,11 @@ My custom github releaser / changelog generator / versioner.
 
 2. Bump version in package.
 	- Use `conventional-recommended-bump` to get `major | minor | patch`
-	- Use `npm version <value>` to increase npm version correctly.
-	- If `--append` parameter, stick that on the end.
+	- Use this to create a correct version
+	- If `--append` parameter, stick parameter on the end.
 
 3. Add to changelog.
-	- Use `standard-changelog` for this.
+	- Adds the version and the issues included in this release
 
 4. Create a commit and tag.
 
