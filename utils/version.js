@@ -46,7 +46,7 @@ const getVersion = (appendage) => new Promise(((resolve, reject) => {
       if (err) {
         reject(new Error(`${chalk.red(figures.cross)} Could not update package.json: ${err.message}`));
       }
-      console.log(`${chalk.green(figures.tick)} New version: ${newVersion}`);
+      console.log(`${chalk.green(figures.tick)} Updating version from ${version} to ${newVersion}`);
 
       resolve(newVersion);
     });
