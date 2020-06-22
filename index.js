@@ -6,13 +6,12 @@ async function main() {
   const version = await getVersion('');
   console.log('Version', version);
 
-  console.log();
 
   const issues = await getIssues('bug');
   console.log(`Issues: ${issues.length}`);
 
-  const c = await getChangelog();
-  console.log(c);
+  const changelog = await getChangelog(version, issues);
+  console.log(changelog);
 }
 
 main();
