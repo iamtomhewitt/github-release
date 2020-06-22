@@ -48,7 +48,6 @@
     },
     "dependencies": {
         "conventional-recommended-bump": "^6.0.9",
-        "node-fetch": "^2.6.0",
-        "standard-changelog": "^2.0.24"
+        "node-fetch": "^2.6.0"
     }
 }
