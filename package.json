@@ -47,7 +47,9 @@
         }
     },
     "dependencies": {
+        "chalk": "^4.1.0",
         "conventional-recommended-bump": "^6.0.9",
+        "figures": "^3.2.0",
         "node-fetch": "^2.6.0"
     }
 }
