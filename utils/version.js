@@ -1,11 +1,16 @@
 const conventionalRecommendedBump = require('conventional-recommended-bump');
 const { version } = require('../package.json');
 
-module.exports = function getVersion(appendage, callback) {
+const getVersion = (appendage) => new Promise(((resolve, reject) => {
   conventionalRecommendedBump({
     preset: 'angular',
   }, (error, recommendation) => {
+    if (error) {
+      reject(error);
+    }
+
     const { releaseType } = recommendation;
+    console.log(recommendation.releaseType);
 
     let major = Number(version[0]);
     let minor = Number(version[2]);
@@ -31,6 +36,8 @@ module.exports = function getVersion(appendage, callback) {
       newVersion += appendage;
     }
 
-    callback(newVersion);
+    resolve(newVersion);
   });
-};
+}));
+
+module.exports = getVersion;

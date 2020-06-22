@@ -1,5 +1,8 @@
 const getVersion = require('./utils/version');
 
-getVersion('', (result) => {
-  console.log(`Version returned: ${result}`);
-});
+async function main() {
+  const version = await getVersion('');
+  console.log('Version', version);
+}
+
+main();
