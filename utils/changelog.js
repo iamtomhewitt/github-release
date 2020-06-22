@@ -1,34 +1,27 @@
-const standardChangelog = require('standard-changelog');
 const fs = require('fs');
 
-const getChangelog = () => new Promise(((resolve, reject) => {
-  const readable = standardChangelog();
-  let result = '';
+const getChangelog = (version, issues) => new Promise(((resolve, reject) => {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const year = today.getFullYear();
 
-  readable.on('data', (chunk) => {
-    result += chunk;
-  });
+  const date = `${day}/${month}/${year}`;
 
-  readable.on('end', () => {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const year = today.getFullYear();
+  fs.readFile(`${__dirname}/../CHANGELOG.md`, (readError, currentContents) => {
+    let toWrite = `## ${version} (${date}) \n\n\n### Issues in this release:\n\n`;
 
-    const newDate = `${day}/${month}/${year}`;
+    issues.forEach((issue) => {
+      toWrite += `* [#${issue.number}](${issue.html_url}) - ${issue.title}`;
+    });
 
-    // Format date how I like it
-    result = result.replace(`${year}-${month}-${day}`, newDate);
+    toWrite += !currentContents ? '' : `\n\n\n${currentContents}`;
 
-    fs.readFile(`${__dirname}/../CHANGELOG.md`, (readError, currentContents) => {
-      const toWrite = result + (!currentContents ? '' : currentContents);
-
-      fs.writeFile(`${__dirname}/../CHANGELOG.md`, toWrite, (err) => {
-        if (err) {
-          reject(err.message);
-        }
-        resolve('done');
-      });
+    fs.writeFile(`${__dirname}/../CHANGELOG.md`, toWrite, (err) => {
+      if (err) {
+        reject(err.message);
+      }
+      resolve('TODO message');
     });
   });
 }));
