@@ -10,7 +10,7 @@ const getVersion = (appendage) => new Promise(((resolve, reject) => {
     }
 
     const { releaseType } = recommendation;
-    console.log(recommendation.releaseType);
+    console.log(`Recommendation: ${recommendation.releaseType}`);
 
     let major = Number(version[0]);
     let minor = Number(version[2]);
