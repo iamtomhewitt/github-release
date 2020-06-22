@@ -1,5 +1,8 @@
 const conventionalRecommendedBump = require('conventional-recommended-bump');
+
+const fs = require('fs');
 const { version } = require('../package.json');
+const packageFile = require('../package.json');
 
 const getVersion = (appendage) => new Promise(((resolve, reject) => {
   conventionalRecommendedBump({
@@ -36,7 +39,14 @@ const getVersion = (appendage) => new Promise(((resolve, reject) => {
       newVersion += appendage;
     }
 
-    resolve(newVersion);
+    packageFile.version = newVersion;
+
+    fs.writeFile(`${__dirname}/../package.json`, JSON.stringify(packageFile, null, 4), (err) => {
+      if (err) {
+        reject(err.message);
+      }
+      resolve(newVersion);
+    });
   });
 }));
 
