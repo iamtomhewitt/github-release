@@ -14,7 +14,7 @@ const getChangelog = (version, issues) => new Promise(((resolve, reject) => {
     let toWrite = `## ${version} (${date}) \n\n\n### Issues in this release:\n\n`;
 
     issues.forEach((issue) => {
-      toWrite += `* [#${issue.number}](${issue.html_url}) - ${issue.title}`;
+      toWrite += `* [#${issue.number}](${issue.html_url}) - ${issue.title}\n`;
     });
 
     toWrite += !currentContents ? '' : `\n\n\n${currentContents}`;
