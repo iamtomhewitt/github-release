@@ -1,4 +1,6 @@
 const fs = require('fs');
+const chalk = require('chalk');
+const figures = require('figures');
 
 const getChangelog = (version, issues) => new Promise(((resolve, reject) => {
   const today = new Date();
@@ -19,9 +21,10 @@ const getChangelog = (version, issues) => new Promise(((resolve, reject) => {
 
     fs.writeFile(`${__dirname}/../CHANGELOG.md`, toWrite, (err) => {
       if (err) {
-        reject(err.message);
+        reject(new Error(`${chalk.red(figures.cross)} Could not generate CHANGELOG: ${err.message}`));
       }
-      resolve('TODO message');
+      console.log(`${chalk.green(figures.tick)} CHANGELOG generated`);
+      resolve(true);
     });
   });
 }));
