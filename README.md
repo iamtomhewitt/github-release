@@ -1,5 +1,5 @@
 # Github Releaser
-My custom github releaser / changelog generator / versioner.
+Bump version, generate changelog with issue links, commit, tag, push and create Github release, all automatically.
 
 ## Idea
 1. Find issues in repo with a certain label (e.g. coded, bug)
@@ -20,9 +20,14 @@ My custom github releaser / changelog generator / versioner.
 	- Push tags
 	- Create a release with contents of changelog on Github
 
-## Arguments
-* `--version-append` = append a string onto the end of your version (e.g. `-BETA`)
-* `--issues` = comma separated list of issue labels which should be included in the release (e.g. specifying `bug,fix` will search for issues with a label `bug` or `fix` and add it into the release) 
-* `--publish` = push to remote and create github release
-* `--token` = github token for creating releases
-* `--dry-run` = do everything but don't actually do it
+## Usage
+```bash
+$ node github-release.js <options>
+ 
+Options
+--version-append, -a  Append a string to your version
+--issues, -i  Comma separated list of issue labels to include in release
+--publish, -p  Publish to remote & create Github release
+--token, -t  Github auth token
+--dry-run, -dr  Do everything but don't actually do it
+```
