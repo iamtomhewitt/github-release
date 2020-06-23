@@ -12,4 +12,4 @@ async function main() {
   await commitTagRelease(version, changelog, '', true);
 }
 
-main();
+module.exports = main;
