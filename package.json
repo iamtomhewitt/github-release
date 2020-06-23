@@ -1,7 +1,7 @@
 {
     "name": "github-releaser",
     "version": "0.1.0",
-    "description": "My custom github releaser / changelog generator / versioner.",
+    "description": "Bump version, generate changelog with issue links, commit, tag, push and create Github release, all automatically.",
     "scripts": {
         "delete-tags": "git tag -l | xargs -n 1 git push --delete origin && git tag | xargs git tag -d",
         "lint": "eslint --ignore-path .gitignore .",
