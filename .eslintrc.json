@@ -18,7 +18,7 @@
     },
     "rules": {
         "max-len": ["error", { "code": 200}],
-        "no-console": "warn",
+        "no-console": "off",
         "indent": ["error", 2],
 		"global-require": "off"
     }
