@@ -8,8 +8,8 @@ async function main() {
   console.log(chalk.magenta('Github Releaser') + chalk.yellow(' by ') + chalk.cyan('Tom Hewitt'));
   const version = await getVersion('');
   const issues = await getIssues('bug');
-  await createChangelog(version, issues);
-  await commitTagRelease(version, false);
+  const changelog = await createChangelog(version, issues);
+  await commitTagRelease(version, changelog, '', true);
 }
 
 main();
