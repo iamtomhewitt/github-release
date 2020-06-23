@@ -18,6 +18,8 @@ const createChangelog = (version, issues) => new Promise(((resolve, reject) => {
       toWrite += `* [#${issue.number}](${issue.html_url}) - ${issue.title}\n`;
     });
 
+    const newContents = toWrite;
+
     toWrite += !currentContents ? '' : `\n\n\n${currentContents}`;
 
     fs.writeFile(`${__dirname}/../CHANGELOG.md`, toWrite, (err) => {
@@ -25,7 +27,7 @@ const createChangelog = (version, issues) => new Promise(((resolve, reject) => {
         reject(new Error(`${chalk.red(figures.cross)} Could not generate CHANGELOG: ${err.message}`));
       }
       console.log(`${chalk.green(figures.tick)} CHANGELOG generated`);
-      resolve(true);
+      resolve(newContents);
     });
   });
 }));
