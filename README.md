@@ -15,9 +15,13 @@ My custom github releaser / changelog generator / versioner.
 
 4. Create a commit and tag.
 
-5. Argument option to push to remote (which creates a Release on Github, with the generated changelog contents)
+5. Push to remote.
+	- Push to the branch you are currently on
+	- Push tags
+	- Create a release with contents of changelog on Github
 
 ## Arguments
-* `--publish` = commit, tag, push to remote and create github release
+* `--version-append` = append a string onto the end of your version (e.g. `-BETA`)
+* `--issues` = comma separated list of issue labels which should be included in the release (e.g. specifying `bug,fix` will search for issues with a label `bug` or `fix` and add it into the release) 
+* `--publish` = push to remote and create github release
 * `--dry-run` = do everything but don't actually do it
-* `--append` = append a string onto the end of your version (e.g. `-BETA`)

@@ -9,7 +9,7 @@ async function main() {
   const version = await getVersion('');
   const issues = await getIssues('bug');
   await createChangelog(version, issues);
-  await commitAndTag('test', false);
+  await commitAndTag(version, false);
 }
 
 main();
