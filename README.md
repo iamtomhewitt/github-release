@@ -24,4 +24,5 @@ My custom github releaser / changelog generator / versioner.
 * `--version-append` = append a string onto the end of your version (e.g. `-BETA`)
 * `--issues` = comma separated list of issue labels which should be included in the release (e.g. specifying `bug,fix` will search for issues with a label `bug` or `fix` and add it into the release) 
 * `--publish` = push to remote and create github release
+* `--token` = github token for creating releases
 * `--dry-run` = do everything but don't actually do it
