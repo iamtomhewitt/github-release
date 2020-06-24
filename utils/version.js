@@ -1,7 +1,6 @@
 const conventionalRecommendedBump = require('conventional-recommended-bump');
-const chalk = require('chalk');
-const figures = require('figures');
 const fs = require('fs');
+const { success } = require('./console-messages');
 const { version } = require('../package.json');
 const packageFile = require('../package.json');
 
@@ -14,7 +13,6 @@ const getVersion = (appendage) => new Promise(((resolve, reject) => {
     }
 
     const { releaseType } = recommendation;
-    console.log(`${chalk.cyan(figures.info)} Release type: ${recommendation.releaseType}`);
 
     let major = Number(version[0]);
     let minor = Number(version[2]);
@@ -31,7 +29,7 @@ const getVersion = (appendage) => new Promise(((resolve, reject) => {
       patch += 1;
       break;
     default:
-      throw new Error(`${chalk.red(figures.cross)} Invalid releaseType: ${releaseType}`);
+      throw new Error(`Invalid releaseType: ${releaseType}`);
     }
 
     let newVersion = `${major}.${minor}.${patch}`;
@@ -44,10 +42,11 @@ const getVersion = (appendage) => new Promise(((resolve, reject) => {
 
     fs.writeFile(`${__dirname}/../package.json`, JSON.stringify(packageFile, null, 4), (err) => {
       if (err) {
-        reject(new Error(`${chalk.red(figures.cross)} Could not update package.json: ${err.message}`));
+        error(`Could not update package.json: ${err.message}`);
+        reject(new Error(`Could not update package.json: ${err.message}`));
       }
-      console.log(`${chalk.green(figures.tick)} Updating version from ${version} to ${newVersion}`);
 
+      success(`Updating version from ${version} to ${newVersion}`);
       resolve(newVersion);
     });
   });

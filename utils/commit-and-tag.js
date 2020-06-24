@@ -1,17 +1,8 @@
-const chalk = require('chalk');
-const figures = require('figures');
 const path = require('path');
 const simpleGit = require('simple-git');
+const { success, error } = require('./console-messages');
 
 const git = simpleGit(path.resolve(__dirname, '..'));
-
-function success(message) {
-  console.log(`${chalk.green(figures.tick)} ${message}`);
-}
-
-function error(message) {
-  console.log(`${chalk.red(figures.cross)} ${message}`);
-}
 
 async function commitAndTag(version) {
   await git.add(['CHANGELOG.md', 'package.json'])
