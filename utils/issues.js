@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const chalk = require('chalk');
 const figures = require('figures');
 const { apiUrl } = require('../package.json').repository;
+const { success } = require('./console-messages');
 
 const getIssues = (labels) => new Promise(((resolve, reject) => {
   if (!apiUrl) {
@@ -16,7 +17,7 @@ const getIssues = (labels) => new Promise(((resolve, reject) => {
     .then((response) => response.json())
     .then((issues) => {
       const filteredIssues = issues.filter((i) => i.labels.every((l) => labels.includes(l.name)));
-      console.log(`${chalk.green(figures.tick)} Adding ${issues.length} issues to the release`);
+      success(`Adding ${issues.length} issues to the release`);
       resolve(filteredIssues);
     });
 }));

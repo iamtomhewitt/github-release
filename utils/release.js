@@ -1,22 +1,12 @@
 const branchName = require('current-git-branch');
 const fetch = require('node-fetch');
-const chalk = require('chalk');
-const figures = require('figures');
 const path = require('path');
+const simpleGit = require('simple-git');
+const { success, error } = require('./console-messages');
 
 const branch = branchName(path.resolve(__dirname, '..'));
-const simpleGit = require('simple-git');
-
 const git = simpleGit(path.resolve(__dirname, '..'));
 const { apiUrl } = require('../package.json').repository;
-
-function success(message) {
-  console.log(`${chalk.green(figures.tick)} ${message}`);
-}
-
-function error(message) {
-  console.log(`${chalk.red(figures.cross)} ${message}`);
-}
 
 async function release(version, changelog, token) {
   await git.push('origin', branch)
