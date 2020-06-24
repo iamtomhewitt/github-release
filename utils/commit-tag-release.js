@@ -35,6 +35,10 @@ async function commitAndTag(version, changelog, token, push) {
       .then(() => success('Pushed to origin'))
       .catch((e) => error(`Could not push to branch '${branch}': ${e.message}`));
 
+    await git.pushTags('origin')
+      .then(() => success('Pushed tags to origin'))
+      .catch((e) => error(`Could not push tags': ${e.message}`));
+
     const releaseBody = {
       tag_name: version,
       name: version,
