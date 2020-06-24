@@ -2,7 +2,8 @@ const chalk = require('chalk');
 const getVersion = require('./utils/version');
 const getIssues = require('./utils/issues');
 const createChangelog = require('./utils/changelog');
-const commitTagRelease = require('./utils/commit-tag-release');
+const commitAndTag = require('./utils/commit-and-tag');
+const release = require('./utils/release');
 
 async function main(flags) {
   console.log(chalk.magenta('Github Releaser') + chalk.yellow(' by ') + chalk.cyan('Tom Hewitt'));
@@ -14,7 +15,11 @@ async function main(flags) {
   const version = await getVersion(versionAppend);
   const issuesToInclude = await getIssues(issues);
   const changelog = await createChangelog(version, issuesToInclude);
-  await commitTagRelease(version, changelog, token, publish);
+  await commitAndTag(version);
+
+  if (publish) {
+    release(version, changelog, token);
+  }
 }
 
 module.exports = main;
