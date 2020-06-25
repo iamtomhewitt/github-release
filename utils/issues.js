@@ -17,7 +17,7 @@ const getIssues = (labels) => new Promise(((resolve, reject) => {
     .then((response) => response.json())
     .then((issues) => {
       const filteredIssues = issues.filter((i) => i.labels.every((l) => labels.includes(l.name)));
-      success(`Adding ${issues.length} issues to the release`);
+      success(`Adding ${filteredIssues.length} issues to the release`);
       resolve(filteredIssues);
     });
 }));
