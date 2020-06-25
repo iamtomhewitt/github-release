@@ -4,7 +4,7 @@ const { success } = require('./console-messages');
 const { version } = require('../package.json');
 const packageFile = require('../package.json');
 
-const getVersion = (appendage) => new Promise(((resolve, reject) => {
+const getVersion = (appendage, dryRun) => new Promise(((resolve, reject) => {
   conventionalRecommendedBump({
     preset: 'angular',
   }, (error, recommendation) => {
@@ -40,15 +40,20 @@ const getVersion = (appendage) => new Promise(((resolve, reject) => {
 
     packageFile.version = newVersion;
 
-    fs.writeFile(`${__dirname}/../package.json`, JSON.stringify(packageFile, null, 4), (err) => {
-      if (err) {
-        error(`Could not update package.json: ${err.message}`);
-        reject(new Error(`Could not update package.json: ${err.message}`));
-      }
-
+    if (dryRun) {
       success(`Updating version from ${version} to ${newVersion}`);
       resolve(newVersion);
-    });
+    } else {
+      fs.writeFile(`${__dirname}/../package.json`, JSON.stringify(packageFile, null, 4), (err) => {
+        if (err) {
+          error(`Could not update package.json: ${err.message}`);
+          reject(new Error(`Could not update package.json: ${err.message}`));
+        }
+
+        success(`Updating version from ${version} to ${newVersion}`);
+        resolve(newVersion);
+      });
+    }
   });
 }));
 
