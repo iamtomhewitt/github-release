@@ -7,14 +7,14 @@ const commitAndTag = require('./utils/commit-and-tag');
 const release = require('./utils/release');
 const { error } = require('./utils/console-messages');
 
-async function main(versionAppend, issues, publish, token) {
-  const version = await getVersion(versionAppend);
+async function main(versionAppend, issues, publish, token, dryRun) {
+  const version = await getVersion(versionAppend, dryRun);
   const issuesToInclude = await getIssues(issues);
-  const changelog = await createChangelog(version, issuesToInclude);
-  await commitAndTag(version);
+  const changelog = await createChangelog(version, issuesToInclude, dryRun);
+  await commitAndTag(version, dryRun);
 
   if (publish) {
-    release(version, changelog, token);
+    release(version, changelog, token, dryRun);
   }
 }
 
@@ -41,6 +41,11 @@ const schema = {
       type: 'string',
       description: 'Github token (hit enter to skip)',
     },
+    dryRun: {
+      type: 'boolean',
+      message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
+      description: 'Dry run?',
+    },
   },
 };
 prompt.message = '';
@@ -63,5 +68,5 @@ prompt.get(schema, (err, input) => {
     process.exit(1);
   }
 
-  main(append, issues, publish, token);
+  main(append, issues, publish, token, dryRun);
 });
