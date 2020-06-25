@@ -55,7 +55,7 @@ prompt.get(schema, (err, input) => {
   }
 
   const {
-    versionAppend, issues, publish, token, dryRun,
+    append, issues, publish, token, dryRun,
   } = input;
 
   if (publish && (!token || token.length === 0)) {
@@ -63,5 +63,5 @@ prompt.get(schema, (err, input) => {
     process.exit(1);
   }
 
-  main(versionAppend, issues, publish, token);
+  main(append, issues, publish, token);
 });
