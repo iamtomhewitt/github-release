@@ -14,9 +14,10 @@ const getVersion = (override, appendage, dryRun) => new Promise(((resolve, rejec
 
     const { releaseType } = recommendation;
 
-    let major = Number(version[0]);
-    let minor = Number(version[2]);
-    let patch = Number(version[4]);
+    const numbers = version.match(/\d+/g).map(Number);
+    let major = Number(numbers[0]);
+    let minor = Number(numbers[1]);
+    let patch = Number(numbers[2]);
 
     switch (releaseType) {
     case 'major':
