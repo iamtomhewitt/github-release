@@ -1,9 +1,9 @@
 {
     "name": "github-releaser",
-    "version": "1.0.1",
+    "version": "1.0.4",
     "description": "Bump version, generate changelog with issue links, commit, tag, push and create Github release, all automatically.",
     "scripts": {
-        "main": "bin/index.js",
+        "main": "index.js",
         "test": "mocha 'tests/**/*.js' --exit",
         "lint": "eslint --ignore-path .gitignore .",
         "lint-fix": "npm run lint -- --fix",
@@ -60,6 +60,6 @@
     },
     "preferGlobal": true,
     "bin": {
-        "github-releaser": "bin/index.js"
+        "github-releaser": "index.js"
     }
 }
