@@ -3,7 +3,7 @@
     "version": "1.0.1",
     "description": "Bump version, generate changelog with issue links, commit, tag, push and create Github release, all automatically.",
     "scripts": {
-        "main": "index.js",
+        "main": "bin/index.js",
         "test": "mocha 'tests/**/*.js' --exit",
         "lint": "eslint --ignore-path .gitignore .",
         "lint-fix": "npm run lint -- --fix",
@@ -58,7 +58,8 @@
         "prompt": "^1.0.0",
         "simple-git": "^2.10.0"
     },
+    "preferGlobal": true,
     "bin": {
-        "github-releaser": "./index.js"
+        "github-releaser": "bin/index.js"
     }
 }
