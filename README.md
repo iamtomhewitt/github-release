@@ -7,6 +7,10 @@ The above will create an entry in `CHANGELOG.md` and a release on Github:
 <p align="center"><img src="demo/changelog.png" height="150">&nbsp;<img src="demo/release.png" height="150"></p>
 
 ## Getting Started
+```bash
+npm install github-releaser
+```
+
 ### Add the api url to your `package.json`:
 ```json
 "repository": {
