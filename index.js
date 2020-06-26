@@ -48,9 +48,9 @@ const schema = {
       description: 'Push to Github?',
     },
     token: {
-	  type: 'string',
-	  hidden: true,
-	  replace: '*',
+      type: 'string',
+      hidden: true,
+      replace: '*',
       description: 'Github token (hit enter to skip)',
     },
     dryRun: {
