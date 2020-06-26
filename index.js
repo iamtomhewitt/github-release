@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const chalk = require('chalk');
 const prompt = require('prompt');
 const getVersion = require('./utils/version');
