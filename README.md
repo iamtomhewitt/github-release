@@ -21,7 +21,7 @@ Add the api url to your `package.json`:
 Add a script to your `package.json`:
 ```json
 "scripts": {
-	"release": "github-releaser"
+    "release": "github-releaser"
 }
 ```
 
