@@ -8,7 +8,6 @@ const release = require('./utils/release');
 const { error } = require('./utils/console-messages');
 
 async function main(input) {
-  console.log(input);
   const {
     versionOverride, append, issues, publish, token, dryRun,
   } = input;
