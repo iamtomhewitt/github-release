@@ -4,7 +4,7 @@ const { success } = require('./console-messages');
 const { version } = require('../package.json');
 const packageFile = require('../package.json');
 
-const getVersion = (appendage, dryRun) => new Promise(((resolve, reject) => {
+const getVersion = (override, appendage, dryRun) => new Promise(((resolve, reject) => {
   conventionalRecommendedBump({
     preset: 'angular',
   }, (error, recommendation) => {
@@ -32,7 +32,7 @@ const getVersion = (appendage, dryRun) => new Promise(((resolve, reject) => {
       throw new Error(`Invalid releaseType: ${releaseType}`);
     }
 
-    let newVersion = `${major}.${minor}.${patch}`;
+    let newVersion = override || `${major}.${minor}.${patch}`;
 
     if (appendage) {
       newVersion += appendage;
