@@ -11,18 +11,18 @@ The above will create an entry in `CHANGELOG.md` and a release on Github:
 npm install github-releaser
 ```
 
-### Add the api url to your `package.json`:
+Add the api url to your `package.json`:
 ```json
 "repository": {
     "apiUrl": "https://api.github.com/repos/<your username>/<your repo name>"
 }
 ```
 
-### Add a script to your `package.json`:
+Add a script to your `package.json`:
 ```json
 "scripts": {
 	"release": "github-releaser"
 }
 ```
 
-### Create a Github access token to use for your repo. It will be needed in order to create releases.
+Create a Github access token to use for your repo. It will be needed in order to create releases.
