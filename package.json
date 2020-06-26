@@ -1,6 +1,6 @@
 {
     "name": "github-releaser",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Bump version, generate changelog with issue links, commit, tag, push and create Github release, all automatically.",
     "scripts": {
         "main": "index.js",
