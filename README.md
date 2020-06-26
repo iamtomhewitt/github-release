@@ -3,6 +3,9 @@ Bump version, generate changelog with issue links, commit, tag, push and create 
 
 <p align="center"><img src="demo/demo.gif"></p>	
 
+The above will create an entry in `CHANGELOG.md` and a release on Github:
+<p align="center"><img src="demo/changelog.png" height="150">&nbsp;<img src="demo/release.png" height="150"></p>
+
 ## Getting Started
 * Add the api url to your `package.json`:
 ```json
