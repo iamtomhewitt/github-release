@@ -7,8 +7,13 @@ const commitAndTag = require('./utils/commit-and-tag');
 const release = require('./utils/release');
 const { error } = require('./utils/console-messages');
 
-async function main(versionAppend, issues, publish, token, dryRun) {
-  const version = await getVersion(versionAppend, dryRun);
+async function main(input) {
+  console.log(input);
+  const {
+    versionOverride, append, issues, publish, token, dryRun,
+  } = input;
+
+  const version = await getVersion(versionOverride, append, dryRun);
   const issuesToInclude = await getIssues(issues);
   const changelog = await createChangelog(version, issuesToInclude, dryRun);
   await commitAndTag(version, dryRun);
@@ -21,6 +26,10 @@ async function main(versionAppend, issues, publish, token, dryRun) {
 console.log(chalk.magenta('Github Releaser') + chalk.yellow(' by ') + chalk.cyan('Tom Hewitt'));
 const schema = {
   properties: {
+    versionOverride: {
+      type: 'string',
+      description: 'Specify a version (hit enter to skip)',
+    },
     append: {
       type: 'string',
       description: 'Append to tag (hit enter to skip)',
@@ -59,14 +68,12 @@ prompt.get(schema, (err, input) => {
     process.exit(1);
   }
 
-  const {
-    append, issues, publish, token, dryRun,
-  } = input;
+  const { publish, token } = input;
 
   if (publish && (!token || token.length === 0)) {
     error('Marked to publish to Github, but no token has been specified');
     process.exit(1);
   }
 
-  main(append, issues, publish, token, dryRun);
+  main(input);
 });
