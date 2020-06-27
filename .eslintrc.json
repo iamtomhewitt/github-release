@@ -20,6 +20,7 @@
         "max-len": ["error", { "code": 200}],
         "no-console": "warn",
         "indent": ["error", 2],
-		"global-require": "off"
+		"global-require": "off",
+		"import/no-dynamic-require": "off"
     }
 }

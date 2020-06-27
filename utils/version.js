@@ -1,8 +1,10 @@
 const conventionalRecommendedBump = require('conventional-recommended-bump');
 const fs = require('fs');
 const { success } = require('./console-messages');
-const { version } = require('../package.json');
-const packageFile = require('../package.json');
+
+const cwd = process.cwd();
+const { version } = require(`${cwd}/package.json`);
+const packageFile = require(`${cwd}/package.json`);
 
 const getVersion = (override, appendage, dryRun) => new Promise(((resolve, reject) => {
   conventionalRecommendedBump({
@@ -45,7 +47,7 @@ const getVersion = (override, appendage, dryRun) => new Promise(((resolve, rejec
       success(`Updating version from ${version} to ${newVersion}`);
       resolve(newVersion);
     } else {
-      fs.writeFile(`${process.cwd()}/package.json`, JSON.stringify(packageFile, null, 4), (err) => {
+      fs.writeFile(`${cwd}/package.json`, JSON.stringify(packageFile, null, 4), (err) => {
         if (err) {
           error(`Could not update package.json: ${err.message}`);
           reject(new Error(`Could not update package.json: ${err.message}`));
