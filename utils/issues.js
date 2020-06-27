@@ -9,10 +9,6 @@ const getIssues = (labels) => new Promise(((resolve, reject) => {
     reject(new Error(`${chalk.red(figures.cross)} There is no "repository: { apiUrl : "<url>" }" in your package.json!`));
   }
 
-  if (!labels) {
-    reject(new Error(`${chalk.red(figures.cross)} No labels parameter specified for repo issues!`));
-  }
-
   fetch(`${apiUrl}/issues`)
     .then((response) => response.json())
     .then((issues) => {
