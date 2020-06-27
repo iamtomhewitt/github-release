@@ -3,9 +3,10 @@ const fetch = require('node-fetch');
 const simpleGit = require('simple-git');
 const { success, error } = require('./console-messages');
 
-const branch = branchName(process.cwd());
-const git = simpleGit(process.cwd());
-const { apiUrl } = require('../package.json').repository;
+const cwd = process.cwd();
+const branch = branchName(cwd);
+const git = simpleGit(cwd);
+const { apiUrl } = require(`${cwd}/package.json`).repository;
 
 async function release(version, changelog, token, dryRun) {
   if (dryRun) {
@@ -28,6 +29,7 @@ async function release(version, changelog, token, dryRun) {
       draft: false,
       prerelease: false,
     };
+
     fetch(`${apiUrl}/releases`, {
       method: 'post',
       body: JSON.stringify(releaseBody),

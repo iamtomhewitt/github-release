@@ -1,7 +1,8 @@
 const fetch = require('node-fetch');
 const chalk = require('chalk');
 const figures = require('figures');
-const { apiUrl } = require('../package.json').repository;
+
+const { apiUrl } = require(`${process.cwd()}/package.json`).repository;
 const { success } = require('./console-messages');
 
 const getIssues = (labels) => new Promise(((resolve, reject) => {
