@@ -45,7 +45,7 @@ const getVersion = (override, appendage, dryRun) => new Promise(((resolve, rejec
       success(`Updating version from ${version} to ${newVersion}`);
       resolve(newVersion);
     } else {
-      fs.writeFile(`${__dirname}/../package.json`, JSON.stringify(packageFile, null, 4), (err) => {
+      fs.writeFile(`${process.cwd()}/package.json`, JSON.stringify(packageFile, null, 4), (err) => {
         if (err) {
           error(`Could not update package.json: ${err.message}`);
           reject(new Error(`Could not update package.json: ${err.message}`));

@@ -9,11 +9,13 @@ const createChangelog = (version, issues, dryRun) => new Promise((resolve, rejec
 
   const date = `${day}/${month}/${year}`;
 
+  const cwd = process.cwd();
+
   if (dryRun) {
     success('CHANGELOG generated');
     resolve('Dry Run');
   } else {
-    fs.readFile(`${__dirname}/../CHANGELOG.md`, (readError, currentContents) => {
+    fs.readFile(`${cwd}/CHANGELOG.md`, (readError, currentContents) => {
       let toWrite = `## ${version} (${date}) \n\n\n`;
       toWrite += issues.length > 0 ? '### Issues in this release:\n\n' : 'There are no issues in this release.';
 
@@ -25,7 +27,7 @@ const createChangelog = (version, issues, dryRun) => new Promise((resolve, rejec
 
       toWrite += !currentContents ? '' : `\n\n\n${currentContents}`;
 
-      fs.writeFile(`${__dirname}/../CHANGELOG.md`, toWrite, (err) => {
+      fs.writeFile(`${cwd}/CHANGELOG.md`, toWrite, (err) => {
         if (err) {
           error(`Could not generate CHANGELOG: ${err.message}`);
           reject(new Error(`Could not generate CHANGELOG: ${err.message}`));

@@ -1,8 +1,7 @@
-const path = require('path');
 const simpleGit = require('simple-git');
 const { success, error } = require('./console-messages');
 
-const git = simpleGit(path.resolve(__dirname, '..'));
+const git = simpleGit(process.cwd());
 
 async function commitAndTag(version, dryRun) {
   if (dryRun) {
@@ -10,7 +9,8 @@ async function commitAndTag(version, dryRun) {
     success('Commited files');
     success(`Tagged '${version}'`);
   } else {
-    await git.add(['CHANGELOG.md', 'package.json'])
+    const cwd = process.cwd();
+    await git.add([`${cwd}/CHANGELOG.md`, `${cwd}/package.json`])
       .then(() => success('Staged changed files'))
       .catch((e) => error(`Could not stage files: ${e.message}`));
 

@@ -1,11 +1,10 @@
 const branchName = require('current-git-branch');
 const fetch = require('node-fetch');
-const path = require('path');
 const simpleGit = require('simple-git');
 const { success, error } = require('./console-messages');
 
-const branch = branchName(path.resolve(__dirname, '..'));
-const git = simpleGit(path.resolve(__dirname, '..'));
+const branch = branchName(process.cwd());
+const git = simpleGit(process.cwd());
 const { apiUrl } = require('../package.json').repository;
 
 async function release(version, changelog, token, dryRun) {
