@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { success, error } = require('./console-messages');
 
-const createChangelog = (version, issues, dryRun) => new Promise(((resolve, reject) => {
+const createChangelog = (version, issues, dryRun) => new Promise((resolve, reject) => {
   const today = new Date();
   const day = String(today.getDate()).padStart(2, '0');
   const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -35,6 +35,6 @@ const createChangelog = (version, issues, dryRun) => new Promise(((resolve, reje
       });
     });
   }
-}));
+});
 
 module.exports = createChangelog;

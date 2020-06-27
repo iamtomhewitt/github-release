@@ -36,16 +36,15 @@ const schema = {
       description: 'Append to tag (hit enter to skip)',
     },
     issues: {
-      required: true,
       type: 'string',
       message: chalk.yellow('Issue labels are required!'),
-      description: 'Issue labels separated by a comma (e.g. bug,coded)',
+      description: 'Issue labels (e.g. bug coded)',
     },
     publish: {
       required: true,
       type: 'boolean',
       message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
-      description: 'Push to Github?',
+      description: 'Push to Github? (t/f)',
     },
     token: {
       type: 'string',
@@ -56,7 +55,7 @@ const schema = {
     dryRun: {
       type: 'boolean',
       message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
-      description: 'Dry run?',
+      description: 'Dry run? (t/f)',
     },
   },
 };
