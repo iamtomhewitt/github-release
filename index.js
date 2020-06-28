@@ -33,7 +33,7 @@ const schema = {
     },
     append: {
       type: 'string',
-      description: 'Append to tag (hit enter to skip)',
+      description: 'Append to version (hit enter to skip)',
     },
     issues: {
       type: 'string',
