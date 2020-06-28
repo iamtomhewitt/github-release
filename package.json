@@ -61,8 +61,5 @@
     "preferGlobal": true,
     "bin": {
         "github-releaser": "index.js"
-    },
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com/"
     }
 }
