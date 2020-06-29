@@ -11,11 +11,13 @@ const { error } = require('./utils/console-messages');
 
 async function main(input) {
   const {
-    versionOverride, append, issues, publish, token, dryRun,
+    versionOverride, append, issues, closeIssues, publish, token, dryRun,
   } = input;
 
   const version = await getVersion(versionOverride, append, dryRun);
-  const issuesToInclude = await getIssues(issues);
+  const issuesToInclude = await getIssues({
+    issues, closeIssues, version, token,
+  });
   const changelog = await createChangelog(version, issuesToInclude, dryRun);
   await commitAndTag(version, dryRun);
 
@@ -39,6 +41,11 @@ const schema = {
       type: 'string',
       message: chalk.yellow('Issue labels are required!'),
       description: 'Issue labels (e.g. bug coded)',
+    },
+    closeIssues: {
+      type: 'boolean',
+      message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
+      description: 'Close issues? (t/f)',
     },
     publish: {
       required: true,
@@ -70,10 +77,10 @@ prompt.get(schema, (err, input) => {
     process.exit(1);
   }
 
-  const { publish, token } = input;
+  const { publish, closeIssues, token } = input;
 
-  if (publish && (!token || token.length === 0)) {
-    error('Marked to publish to Github, but no token has been specified');
+  if ((publish || closeIssues) && (!token || token.length === 0)) {
+    error('No Github token has been specified');
     process.exit(1);
   }
 
