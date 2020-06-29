@@ -3,14 +3,11 @@
     "version": "1.0.8",
     "description": "Bump version, generate changelog with issue links, commit, tag, push and create Github release, all automatically.",
     "scripts": {
-        "main": "index.js",
-        "test": "mocha 'tests/**/*.js' --exit",
         "lint": "eslint --ignore-path .gitignore .",
         "lint-fix": "npm run lint -- --fix",
-        "pretest": "eslint --ignore-path .gitignore .",
-        "release": "standard-version",
-        "reset-local-tags": "git tag -l | xargs git tag -d && git fetch --tags",
-        "start": "node index.js"
+        "main": "index.js",
+        "release": "node index.js && npm login && npm release npm release",
+        "reset-local-tags": "git tag -l | xargs git tag -d && git fetch --tags"
     },
     "repository": {
         "type": "git",
@@ -36,7 +33,6 @@
         "eslint-plugin-react": "^7.20.0",
         "eslint-plugin-react-hooks": "^2.5.1",
         "husky": "^1.1.2",
-        "standard-version": "^8.0.0",
         "validate-commit-msg": "^2.14.0"
     },
     "husky": {
