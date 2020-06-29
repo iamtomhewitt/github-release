@@ -23,13 +23,13 @@ const getVersion = (override, appendage, dryRun) => new Promise(((resolve, rejec
 
     switch (releaseType) {
     case 'major':
-	  major += 1;
-	  minor = 0;
-	  patch = 0;
+      major += 1;
+      minor = 0;
+      patch = 0;
       break;
     case 'minor':
-	  minor += 1;
-	  patch = 0;
+      minor += 1;
+      patch = 0;
       break;
     case 'patch':
       patch += 1;
