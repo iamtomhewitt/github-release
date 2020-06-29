@@ -3,17 +3,21 @@ const chalk = require('chalk');
 const figures = require('figures');
 
 const { apiUrl } = require(`${process.cwd()}/package.json`).repository;
-const { success } = require('./console-messages');
+const { success, error } = require('./console-messages');
 
-const getIssues = (labels) => new Promise(((resolve, reject) => {
+const getIssues = (data) => new Promise((resolve, reject) => {
+  const {
+    labels, closeIssues, version, token,
+  } = data;
+
   if (!apiUrl) {
     reject(new Error(`${chalk.red(figures.cross)} There is no "repository: { apiUrl : "<url>" }" in your package.json!`));
   }
 
+  const filteredIssues = [];
   fetch(`${apiUrl}/issues`)
     .then((response) => response.json())
     .then((issues) => {
-      const filteredIssues = [];
       issues.forEach((issue) => {
         issue.labels.forEach((label) => {
           if (labels.includes(label.name)) {
@@ -22,8 +26,45 @@ const getIssues = (labels) => new Promise(((resolve, reject) => {
         });
       });
       success(`Adding ${filteredIssues.length} issues to the release`);
-      resolve(filteredIssues);
+
+      if (closeIssues) {
+        filteredIssues.forEach((issue) => {
+          // Add a comment
+          fetch(`${apiUrl}/issues/${issue.number}/comments`, {
+            method: 'POST',
+            body: JSON.stringify({ body: `Included in version ${version}` }),
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `token ${token}`,
+            },
+          })
+            .then((res) => {
+              if (!res.ok) {
+                error(`Could not add comment to issue #${issue.number}: ${res.status}`);
+                throw new Error(`Could not add comment to issue #${issue.number}: ${res.status}`);
+              }
+            });
+
+          // Update status
+          fetch(`${apiUrl}/issues/${issue.number}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ state: 'closed' }),
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `token ${token}`,
+            },
+          })
+            .then((res) => {
+              if (!res.ok) {
+                error(`Could not close issue #${issue.number}: ${res.status}`);
+                throw new Error(`Could not close issue #${issue.number}: ${res.status}`);
+              }
+            });
+        });
+      }
     });
-}));
+
+  resolve(filteredIssues);
+});
 
 module.exports = getIssues;
