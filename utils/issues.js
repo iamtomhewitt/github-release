@@ -13,7 +13,14 @@ const getIssues = (labels) => new Promise(((resolve, reject) => {
   fetch(`${apiUrl}/issues`)
     .then((response) => response.json())
     .then((issues) => {
-      const filteredIssues = issues.filter((i) => i.labels.every((l) => labels.includes(l.name)));
+      const filteredIssues = [];
+      issues.forEach((issue) => {
+        issue.labels.forEach((label) => {
+          if (labels.includes(label.name)) {
+            filteredIssues.push(issue);
+          }
+        });
+      });
       success(`Adding ${filteredIssues.length} issues to the release`);
       resolve(filteredIssues);
     });
