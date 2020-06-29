@@ -3,27 +3,37 @@
 const chalk = require('chalk');
 const prompt = require('prompt');
 const getVersion = require('./utils/version');
-const getIssues = require('./utils/issues');
+const { getIssues, closeIssues } = require('./utils/issues');
 const createChangelog = require('./utils/changelog');
 const commitAndTag = require('./utils/commit-and-tag');
 const release = require('./utils/release');
-const { error } = require('./utils/console-messages');
+const { success, error } = require('./utils/console-messages');
 
 async function main(input) {
   const {
-    versionOverride, append, issues, closeIssues, publish, token, dryRun,
+    versionOverride, append, issueLabels, shouldCloseIssues, publish, token, dryRun,
   } = input;
 
   const version = await getVersion(versionOverride, append, dryRun);
-  const issuesToInclude = await getIssues({
-    issues, closeIssues, version, token,
-  });
-  const changelog = await createChangelog(version, issuesToInclude, dryRun);
+  const issues = await getIssues(issueLabels);
+  const changelog = await createChangelog(version, issues, dryRun);
   await commitAndTag(version, dryRun);
 
   if (publish) {
-    release(version, changelog, token, dryRun);
+    if (dryRun) {
+      success('Pushed to origin');
+      success('Pushed tags to origin');
+      success('Created Github release');
+    } else {
+      release(version, changelog, token);
+    }
   }
+
+  if (shouldCloseIssues && !dryRun) {
+    closeIssues(issues, version, token);
+  }
+
+  success('Completed');
 }
 
 console.log(chalk.magenta('Github Releaser') + chalk.yellow(' by ') + chalk.cyan('Tom Hewitt'));
@@ -37,12 +47,12 @@ const schema = {
       type: 'string',
       description: 'Append to version (hit enter to skip)',
     },
-    issues: {
+    issueLabels: {
       type: 'string',
       message: chalk.yellow('Issue labels are required!'),
       description: 'Issue labels (e.g. bug coded)',
     },
-    closeIssues: {
+    shouldCloseIssues: {
       type: 'boolean',
       message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
       description: 'Close issues? (t/f)',
@@ -77,9 +87,9 @@ prompt.get(schema, (err, input) => {
     process.exit(1);
   }
 
-  const { publish, closeIssues, token } = input;
+  const { publish, shouldCloseIssues, token } = input;
 
-  if ((publish || closeIssues) && (!token || token.length === 0)) {
+  if ((publish || shouldCloseIssues) && (!token || token.length === 0)) {
     error('No Github token has been specified');
     process.exit(1);
   }
