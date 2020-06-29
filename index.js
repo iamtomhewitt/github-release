@@ -32,8 +32,6 @@ async function main(input) {
   if (shouldCloseIssues && !dryRun) {
     closeIssues(issues, version, token);
   }
-
-  success('Completed');
 }
 
 console.log(chalk.magenta('Github Releaser') + chalk.yellow(' by ') + chalk.cyan('Tom Hewitt'));
