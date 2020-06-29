@@ -1,3 +1,15 @@
+## 1.1.0 (29/06/2020) 
+
+
+### Issues in this release:
+
+* [#9](https://github.com/iamtomhewitt/github-releaser/issues/9) - Version not incremented correctly
+* [#6](https://github.com/iamtomhewitt/github-releaser/issues/6) - Update release script for this repo to use itself and npm publish
+* [#5](https://github.com/iamtomhewitt/github-releaser/issues/5) - Feature: Add option to close issues included in release
+* [#3](https://github.com/iamtomhewitt/github-releaser/issues/3) - Fetching issues includes issues with no labels
+
+
+
 ## 1.0.8 (28/06/2020) 
 
 
