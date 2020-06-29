@@ -23,7 +23,7 @@ module.exports = {
           });
         });
         success(`Adding ${filteredIssues.length} issues to the release`);
-		resolve(filteredIssues);
+        resolve(filteredIssues);
       });
   }),
 
