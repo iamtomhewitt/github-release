@@ -6,7 +6,7 @@ Bump version, generate changelog with issue links, commit, tag, push and create 
 The above will create an entry in `CHANGELOG.md` and a [release on Github](https://github.com/iamtomhewitt/github-releaser/releases/latest):
 
 ```markdown
-## 1.1.8 (29/06/2020) 
+## <version> (dd/mm/yyyy) 
 
 ### Issues in this release:
 
