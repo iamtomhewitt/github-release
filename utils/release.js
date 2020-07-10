@@ -8,7 +8,14 @@ const branch = branchName(cwd);
 const git = simpleGit(cwd);
 const { apiUrl } = require(`${cwd}/package.json`).repository;
 
-async function release(version, changelog, token) {
+async function release(version, changelog, token, dryRun) {
+  if (dryRun) {
+    success('Pushed to origin');
+    success('Pushed tags to origin');
+    success('Created Github release');
+    return;
+  }
+
   await git.push('origin', branch)
     .then(() => success('Pushed to origin'))
     .catch((e) => error(`Could not push to branch '${branch}': ${e.message}`));
