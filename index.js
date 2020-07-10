@@ -15,7 +15,7 @@ async function main(input) {
   } = input;
 
   const version = await getVersion(versionOverride, append, dryRun);
-  const issues = await getIssues(issueLabels);
+  const issues = await getIssues(issueLabels, token);
   const changelog = await createChangelog(version, issues, dryRun);
   await commitAndTag(version, dryRun);
 

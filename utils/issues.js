@@ -6,13 +6,19 @@ const { apiUrl } = require(`${process.cwd()}/package.json`).repository;
 const { success, error } = require('./console-messages');
 
 module.exports = {
-  getIssues: (labels) => new Promise((resolve, reject) => {
+  getIssues: (labels, token) => new Promise((resolve, reject) => {
     if (!apiUrl) {
       reject(new Error(`${chalk.red(figures.cross)} There is no "repository: { apiUrl : "<url>" }" in your package.json!`));
     }
 
     const filteredIssues = [];
-    fetch(`${apiUrl}/issues`)
+    fetch(`${apiUrl}/issues`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `token ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((issues) => {
         issues.forEach((issue) => {
