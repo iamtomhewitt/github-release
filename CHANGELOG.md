@@ -1,3 +1,12 @@
+## 1.1.2 (10/07/2020) 
+
+
+### Issues in this release:
+
+* [#11](https://github.com/iamtomhewitt/github-releaser/issues/11) - Issues aren't fetched for private repos
+
+
+
 ## 1.1.1 (07/07/2020) 
 
 
