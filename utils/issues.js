@@ -1,5 +1,5 @@
-const fetch = require('node-fetch');
 const chalk = require('chalk');
+const fetch = require('node-fetch');
 const figures = require('figures');
 
 const { apiUrl } = require(`${process.cwd()}/package.json`).repository;
