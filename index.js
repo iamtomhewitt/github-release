@@ -45,6 +45,14 @@ const schema = {
       type: 'string',
       description: 'Append to version (hit enter to skip)',
     },
+    token: {
+      type: 'string',
+      hidden: true,
+      replace: '*',
+      required: true,
+      message: chalk.yellow('Token is required!'),
+      description: 'Github token',
+    },
     issueLabels: {
       type: 'string',
       message: chalk.yellow('Issue labels are required!'),
@@ -61,12 +69,6 @@ const schema = {
       message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
       description: 'Push to Github? (t/f)',
     },
-    token: {
-      type: 'string',
-      hidden: true,
-      replace: '*',
-      description: 'Github token (hit enter to skip)',
-    },
     dryRun: {
       type: 'boolean',
       message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
@@ -82,13 +84,6 @@ prompt.start();
 prompt.get(schema, (err, input) => {
   if (err) {
     error(`There was an error with prompt: ${err.message}`);
-    process.exit(1);
-  }
-
-  const { publish, shouldCloseIssues, token } = input;
-
-  if ((publish || shouldCloseIssues) && (!token || token.length === 0)) {
-    error('No Github token has been specified');
     process.exit(1);
   }
 
