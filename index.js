@@ -2,7 +2,7 @@
 
 const chalk = require('chalk');
 const prompt = require('prompt');
-const getVersion = require('./utils/version');
+const { generateVersion, writeVersion } = require('./utils/version');
 const { getIssues, closeIssues } = require('./utils/issues');
 const createChangelog = require('./utils/changelog');
 const commitAndTag = require('./utils/commit-and-tag');
@@ -14,7 +14,8 @@ async function main(input) {
     versionOverride, append, issueLabels, shouldCloseIssues, publish, token, dryRun,
   } = input;
 
-  const version = await getVersion(versionOverride, append, dryRun);
+  const version = await generateVersion(versionOverride, append);
+  await writeVersion(version, dryRun);
   const issues = await getIssues(issueLabels, token);
   const changelog = await createChangelog(version, issues, dryRun);
   await commitAndTag(version, dryRun);
