@@ -2,31 +2,26 @@
 
 const chalk = require('chalk');
 const prompt = require('prompt');
-const getVersion = require('./utils/version');
-const { getIssues, closeIssues } = require('./utils/issues');
-const createChangelog = require('./utils/changelog');
 const commitAndTag = require('./utils/commit-and-tag');
+const createChangelog = require('./utils/changelog');
 const release = require('./utils/release');
-const { success, error } = require('./utils/console-messages');
+const { error } = require('./utils/console-messages');
+const { generateVersion, writeVersion } = require('./utils/version');
+const { getIssues, closeIssues } = require('./utils/issues');
 
 async function main(input) {
   const {
     versionOverride, append, issueLabels, shouldCloseIssues, publish, token, dryRun,
   } = input;
 
-  const version = await getVersion(versionOverride, append, dryRun);
+  const version = await generateVersion(versionOverride, append);
+  await writeVersion(version, dryRun);
   const issues = await getIssues(issueLabels, token);
   const changelog = await createChangelog(version, issues, dryRun);
   await commitAndTag(version, dryRun);
 
   if (publish) {
-    if (dryRun) {
-      success('Pushed to origin');
-      success('Pushed tags to origin');
-      success('Created Github release');
-    } else {
-      release(version, changelog, token);
-    }
+    release(version, changelog, token);
   }
 
   if (shouldCloseIssues && !dryRun) {
