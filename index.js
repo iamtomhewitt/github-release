@@ -21,7 +21,7 @@ async function main(input) {
   await commitAndTag(version, dryRun);
 
   if (publish) {
-    release(version, changelog, token);
+    release(version, changelog, token, dryRun);
   }
 
   if (shouldCloseIssues && !dryRun) {
