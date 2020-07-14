@@ -68,4 +68,22 @@ module.exports = {
         });
     });
   },
+
+  removeLabels: (issues, token) => {
+    issues.forEach((issue) => {
+      fetch(`${apiUrl}/issues/${issue.number}/labels`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `token ${token}`,
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            error(`Could not remove labels from issue #${issue.number}: ${res.status}`);
+            throw new Error(`Could not remove label from issue #${issue.number}: ${res.status}`);
+          }
+        });
+    });
+  },
 };
