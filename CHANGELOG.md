@@ -1,3 +1,13 @@
+## 1.2.0 (14/07/2020) 
+
+
+### Issues in this release:
+
+* [#15](https://github.com/iamtomhewitt/github-releaser/issues/15) - Releases are still created when selecting dry run
+* [#14](https://github.com/iamtomhewitt/github-releaser/issues/14) - Remove labels from issues when closing
+
+
+
 ## 1.1.2 (10/07/2020) 
 
 
