@@ -7,7 +7,7 @@ const createChangelog = require('./utils/changelog');
 const release = require('./utils/release');
 const { error } = require('./utils/console-messages');
 const { generateVersion, writeVersion } = require('./utils/version');
-const { getIssues, closeIssues } = require('./utils/issues');
+const { getIssues, closeIssues, removeLabels } = require('./utils/issues');
 
 async function main(input) {
   const {
@@ -26,6 +26,7 @@ async function main(input) {
 
   if (shouldCloseIssues && !dryRun) {
     closeIssues(issues, version, token);
+    removeLabels(issues, token);
   }
 }
 
