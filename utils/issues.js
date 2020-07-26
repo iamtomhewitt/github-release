@@ -28,7 +28,10 @@ module.exports = {
             }
           });
         });
-        success(`Adding ${filteredIssues.length} issues to the release`);
+        success(`Adding ${filteredIssues.length} issues to the release:`);
+        filteredIssues.forEach((i) => {
+          console.log(`  ${chalk.blue(figures.play)} #${i.number} - ${i.title}`);
+        });
         resolve(filteredIssues);
       });
   }),
