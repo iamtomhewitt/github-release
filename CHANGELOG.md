@@ -1,3 +1,12 @@
+## 1.2.1 (08/08/2020) 
+
+
+### Issues in this release:
+
+* [#18](https://github.com/iamtomhewitt/github-releaser/issues/18) - Print issue number and title when adding issues
+
+
+
 ## 1.2.0 (14/07/2020) 
 
 
