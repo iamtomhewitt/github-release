@@ -8,29 +8,30 @@ const release = require('./utils/release');
 const { error } = require('./utils/console-messages');
 const { generateVersion, writeVersion } = require('./utils/version');
 const { getIssues, closeIssues, removeLabels } = require('./utils/issues');
+const { version } = require('./package.json');
 
 async function main(input) {
   const {
     versionOverride, append, issueLabels, shouldCloseIssues, publish, token, dryRun,
   } = input;
 
-  const version = await generateVersion(versionOverride, append);
-  await writeVersion(version, dryRun);
+  const newVersion = await generateVersion(versionOverride, append);
+  await writeVersion(newVersion, dryRun);
   const issues = await getIssues(issueLabels, token);
-  const changelog = await createChangelog(version, issues, dryRun);
-  await commitAndTag(version, dryRun);
+  const changelog = await createChangelog(newVersion, issues, dryRun);
+  await commitAndTag(newVersion, dryRun);
 
   if (publish) {
-    release(version, changelog, token, dryRun);
+    release(newVersion, changelog, token, dryRun);
   }
 
   if (shouldCloseIssues && !dryRun) {
-    closeIssues(issues, version, token);
+    closeIssues(issues, newVersion, token);
     removeLabels(issues, token);
   }
 }
 
-console.log(chalk.magenta('Github Releaser') + chalk.yellow(' by ') + chalk.cyan('Tom Hewitt'));
+console.log(chalk.magenta(`Github Releaser (${version})`) + chalk.yellow(' by ') + chalk.cyan('Tom Hewitt'));
 const schema = {
   properties: {
     versionOverride: {
