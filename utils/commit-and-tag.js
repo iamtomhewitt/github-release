@@ -10,7 +10,7 @@ async function commitAndTag(version, dryRun) {
     success(`Tagged '${version}'`);
   } else {
     const cwd = process.cwd();
-    await git.add([`${cwd}/CHANGELOG.md`, `${cwd}/package.json`])
+    await git.add([`${cwd}/CHANGELOG.md`, `${cwd}/package.json`, `${cwd}/package-lock.json`])
       .then(() => success('Staged changed files'))
       .catch((e) => error(`Could not stage files: ${e.message}`));
 
