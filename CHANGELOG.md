@@ -1,3 +1,13 @@
+## 1.3.0 (29/08/2020) 
+
+
+### Issues in this release:
+
+* [#21](https://github.com/iamtomhewitt/github-releaser/issues/21) - package-lock.json is not updated with new version
+* [#20](https://github.com/iamtomhewitt/github-releaser/issues/20) - Show version in release command
+
+
+
 ## 1.2.1 (08/08/2020) 
 
 
