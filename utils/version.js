@@ -25,20 +25,20 @@ module.exports = {
       let patch = Number(numbers[2]);
 
       switch (releaseType) {
-        case 'major':
-          major += 1;
-          minor = 0;
-          patch = 0;
-          break;
-        case 'minor':
-          minor += 1;
-          patch = 0;
-          break;
-        case 'patch':
-          patch += 1;
-          break;
-        default:
-          throw new Error(`Invalid releaseType: ${releaseType}`);
+      case 'major':
+        major += 1;
+        minor = 0;
+        patch = 0;
+        break;
+      case 'minor':
+        minor += 1;
+        patch = 0;
+        break;
+      case 'patch':
+        patch += 1;
+        break;
+      default:
+        throw new Error(`Invalid releaseType: ${releaseType}`);
       }
 
       let newVersion = override || `${major}.${minor}.${patch}`;
@@ -70,7 +70,6 @@ module.exports = {
             }
           });
           success(`Wrote ${newVersion} to package.json`);
-
           callback();
         },
         function (callback) {
@@ -81,10 +80,9 @@ module.exports = {
             }
           });
           success(`Wrote ${newVersion} to package-lock.json`);
-
           callback();
-        }
-      ], function (err, results) {
+        },
+      ], (err, results) => {
         if (err) {
           error(`Could not update package.json: ${err.message}`);
           reject(new Error(`Could not update package.json: ${err.message}`));
