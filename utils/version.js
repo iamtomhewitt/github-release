@@ -25,20 +25,20 @@ module.exports = {
       let patch = Number(numbers[2]);
 
       switch (releaseType) {
-      case 'major':
-        major += 1;
-        minor = 0;
-        patch = 0;
-        break;
-      case 'minor':
-        minor += 1;
-        patch = 0;
-        break;
-      case 'patch':
-        patch += 1;
-        break;
-      default:
-        throw new Error(`Invalid releaseType: ${releaseType}`);
+        case 'major':
+          major += 1;
+          minor = 0;
+          patch = 0;
+          break;
+        case 'minor':
+          minor += 1;
+          patch = 0;
+          break;
+        case 'patch':
+          patch += 1;
+          break;
+        default:
+          throw new Error(`Invalid releaseType: ${releaseType}`);
       }
 
       let newVersion = override || `${major}.${minor}.${patch}`;
@@ -59,21 +59,36 @@ module.exports = {
       resolve();
     } else {
       packageFile.version = newVersion;
-      packageFile.version = newVersion;
+      packageLockFile.version = newVersion;
 
       async.parallel([
-        function () {
-          fs.writeFile(`${cwd}/package.json`, JSON.stringify(packageFile, null, 4));
+        function (callback) {
+          fs.writeFile(`${cwd}/package.json`, JSON.stringify(packageFile, null, 4), (err) => {
+            if (err) {
+              error(`Could not update package-lock.json: ${err.message}`);
+              reject(new Error(`Could not update package-lock.json: ${err.message}`));
+            }
+          });
+          success(`Wrote ${newVersion} to package.json`);
+
+          callback();
         },
-        function () {
-          fs.writeFile(`${cwd}/package-lock.json`, JSON.stringify(packageLockFile, null, 4));
-        },
-      ], (err) => {
+        function (callback) {
+          fs.writeFile(`${cwd}/package-lock.json`, JSON.stringify(packageLockFile, null, 4), (err) => {
+            if (err) {
+              error(`Could not update package-lock.json: ${err.message}`);
+              reject(new Error(`Could not update package-lock.json: ${err.message}`));
+            }
+          });
+          success(`Wrote ${newVersion} to package-lock.json`);
+
+          callback();
+        }
+      ], function (err, results) {
         if (err) {
           error(`Could not update package.json: ${err.message}`);
           reject(new Error(`Could not update package.json: ${err.message}`));
         }
-        success(`Wrote ${newVersion} to package-lock.json`);
         resolve();
       });
     }
