@@ -1,10 +1,12 @@
 const conventionalRecommendedBump = require('conventional-recommended-bump');
 const fs = require('fs');
+const async = require('async');
 const { success, error } = require('./console-messages');
 
 const cwd = process.cwd();
 const { version } = require(`${cwd}/package.json`);
 const packageFile = require(`${cwd}/package.json`);
+const packageLockFile = require(`${cwd}/package-lock.json`);
 
 module.exports = {
   generateVersion: (override, appendage) => new Promise(((resolve, reject) => {
@@ -53,16 +55,38 @@ module.exports = {
   writeVersion: (newVersion, dryRun) => new Promise(((resolve, reject) => {
     if (dryRun) {
       success(`Wrote ${newVersion} to package.json`);
+      success(`Wrote ${newVersion} to package-lock.json`);
       resolve();
     } else {
       packageFile.version = newVersion;
-      fs.writeFile(`${cwd}/package.json`, JSON.stringify(packageFile, null, 4), (err) => {
+      packageLockFile.version = newVersion;
+
+      async.parallel([
+        function (callback) {
+          fs.writeFile(`${cwd}/package.json`, JSON.stringify(packageFile, null, 4), (err) => {
+            if (err) {
+              error(`Could not update package-lock.json: ${err.message}`);
+              reject(new Error(`Could not update package-lock.json: ${err.message}`));
+            }
+          });
+          success(`Wrote ${newVersion} to package.json`);
+          callback();
+        },
+        function (callback) {
+          fs.writeFile(`${cwd}/package-lock.json`, JSON.stringify(packageLockFile, null, 4), (err) => {
+            if (err) {
+              error(`Could not update package-lock.json: ${err.message}`);
+              reject(new Error(`Could not update package-lock.json: ${err.message}`));
+            }
+          });
+          success(`Wrote ${newVersion} to package-lock.json`);
+          callback();
+        },
+      ], (err, results) => {
         if (err) {
           error(`Could not update package.json: ${err.message}`);
           reject(new Error(`Could not update package.json: ${err.message}`));
         }
-
-        success(`Wrote ${newVersion} to package.json`);
         resolve();
       });
     }
