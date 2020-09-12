@@ -21,6 +21,7 @@
         "no-console": "warn",
         "indent": ["error", 2],
 		"global-require": "off",
-		"import/no-dynamic-require": "off"
+		"import/no-dynamic-require": "off",
+		"func-names": "off"
     }
 }
