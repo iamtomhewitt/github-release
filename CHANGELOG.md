@@ -1,3 +1,13 @@
+## 1.4.0 (12/09/2020) 
+
+
+### Issues in this release:
+
+* [#25](https://github.com/iamtomhewitt/github-releaser/issues/25) - Add a check for latest version
+* [#24](https://github.com/iamtomhewitt/github-releaser/issues/24) - Add an option to make the release a pre-release
+
+
+
 ## 1.3.0 (29/08/2020) 
 
 
