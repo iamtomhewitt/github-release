@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk');
+const fetch = require('node-fetch');
 const prompt = require('prompt');
 const commitAndTag = require('./utils/commit-and-tag');
 const createChangelog = require('./utils/changelog');
@@ -11,6 +12,13 @@ const { getIssues, closeIssues, removeLabels } = require('./utils/issues');
 const { version } = require('./package.json');
 
 async function main(input) {
+  const latestRelease = await fetch('https://api.github.com/repos/iamtomhewitt/github-releaser/releases/latest');
+  const data = await latestRelease.json();
+
+  if (version !== data.tag_name) {
+    console.log(chalk.yellow(`Your version of github-releaser (${version}) is different to that from npm (${data.tag_name}) - please update when you can!`));
+  }
+
   const {
     versionOverride, append, issueLabels, shouldCloseIssues, publish, token, dryRun,
   } = input;
