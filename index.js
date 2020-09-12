@@ -20,7 +20,7 @@ async function main(input) {
   }
 
   const {
-    versionOverride, append, issueLabels, shouldCloseIssues, publish, token, dryRun,
+    versionOverride, append, issueLabels, shouldCloseIssues, publish, token, dryRun, prerelease,
   } = input;
 
   const newVersion = await generateVersion(versionOverride, append);
@@ -30,7 +30,7 @@ async function main(input) {
   await commitAndTag(newVersion, dryRun);
 
   if (publish) {
-    release(newVersion, changelog, token, dryRun);
+    release(newVersion, changelog, token, dryRun, prerelease);
   }
 
   if (shouldCloseIssues && !dryRun) {
@@ -73,6 +73,14 @@ const schema = {
       type: 'boolean',
       message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
       description: 'Push to Github? (t/f)',
+    },
+    prerelease: {
+      type: 'boolean',
+      message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
+      description: 'Prerelease? (t/f)',
+      ask() {
+        return prompt.history('publish').value > 0;
+      },
     },
     dryRun: {
       type: 'boolean',
