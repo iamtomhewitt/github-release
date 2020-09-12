@@ -8,7 +8,7 @@ const branch = branchName(cwd);
 const git = simpleGit(cwd);
 const { apiUrl } = require(`${cwd}/package.json`).repository;
 
-async function release(version, changelog, token, dryRun) {
+async function release(version, changelog, token, dryRun, draft) {
   if (dryRun) {
     success('Pushed to origin');
     success('Pushed tags to origin');
@@ -28,7 +28,7 @@ async function release(version, changelog, token, dryRun) {
     tag_name: version,
     name: version,
     body: changelog,
-    draft: false,
+    draft,
     prerelease: false,
   };
 
