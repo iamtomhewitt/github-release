@@ -20,7 +20,7 @@ async function main(input) {
   }
 
   const {
-    versionOverride, append, issueLabels, shouldCloseIssues, publish, token, dryRun,
+    versionOverride, append, issueLabels, shouldCloseIssues, publish, token, dryRun, draft,
   } = input;
 
   const newVersion = await generateVersion(versionOverride, append);
@@ -30,7 +30,7 @@ async function main(input) {
   await commitAndTag(newVersion, dryRun);
 
   if (publish) {
-    release(newVersion, changelog, token, dryRun);
+    release(newVersion, changelog, token, dryRun, draft);
   }
 
   if (shouldCloseIssues && !dryRun) {
@@ -74,6 +74,14 @@ const schema = {
       message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
       description: 'Push to Github? (t/f)',
     },
+    draft: {
+      type: 'boolean',
+      message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
+      description: 'Draft release? (t/f)',
+      ask() {
+        return prompt.history('publish').value > 0;
+      },
+    },
     dryRun: {
       type: 'boolean',
       message: chalk.yellow('Must be one of \'true\', \'t\', \'false\', \'f\''),
@@ -91,6 +99,6 @@ prompt.get(schema, (err, input) => {
     error(`There was an error with prompt: ${err.message}`);
     process.exit(1);
   }
-
+  
   main(input);
 });
