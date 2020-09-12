@@ -87,7 +87,7 @@ module.exports = {
           error(`Could not update package.json: ${err.message}`);
           reject(new Error(`Could not update package.json: ${err.message}`));
         }
-        resolve();
+        resolve(results);
       });
     }
   })),
