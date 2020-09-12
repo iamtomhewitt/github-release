@@ -1,6 +1,6 @@
 {
     "name": "github-releaser",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "description": "Bump version, generate changelog with issue links, commit, tag, push and create Github release, all automatically.",
     "scripts": {
         "lint": "eslint --ignore-path .gitignore .",
