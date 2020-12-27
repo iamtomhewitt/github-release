@@ -1,5 +1,4 @@
-# Github Releaser
-Bump version, generate changelog with issue links, commit, tag, push and create Github release, all automatically.
+![github-releaser](https://socialify.git.ci/iamtomhewitt/github-releaser/image?font=Inter&issues=1&language=1&stargazers=1&theme=Light)
 
 <p align="center"><img src="demo/demo.gif"></p>	
 
