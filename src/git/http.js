@@ -40,7 +40,7 @@ const http = {
         'Content-Type': 'application/json',
         Authorization: `token ${token}`,
       },
-    }).then((response) => response.json());
+    });
   },
 };
 

@@ -12,7 +12,7 @@ module.exports = {
 
     if (dryRun) {
       log.success('CHANGELOG generated');
-      return;
+      return { changelog: '' };
     }
 
     try {
