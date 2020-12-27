@@ -3,12 +3,13 @@
 const chalk = require('chalk');
 const fetch = require('node-fetch');
 const prompt = require('prompt');
-const commitAndTag = require('./utils/commit-and-tag');
-const createChangelog = require('./utils/changelog');
-const release = require('./utils/release');
-const { error } = require('./utils/console-messages');
-const { generateVersion, writeVersion } = require('./utils/version');
-const { getIssues, closeIssues, removeLabels } = require('./utils/issues');
+
+const log = require('./src/logger');
+const { commitAndTag } = require('./src/git');
+const { createChangelog } = require('./src/changelog');
+const { generateVersion, writeVersion } = require('./src/version');
+const { getIssues, closeIssues, removeLabels } = require('./src/issues');
+const { release } = require('./src/release');
 const { version } = require('./package.json');
 
 async function main(input) {
@@ -16,33 +17,40 @@ async function main(input) {
   const data = await latestRelease.json();
 
   if (version !== data.tag_name) {
-    console.log(chalk.yellow(`Your version of github-releaser (${version}) is different to that from npm (${data.tag_name}) - please update when you can!`));
+    log.warn(`Your version of github-releaser (${version}) is different to that from npm (${data.tag_name}) - please update when you can!`);
   }
 
   const {
-    versionOverride, append, issueLabels, shouldCloseIssues, publish, token, dryRun, prerelease,
+    override, append, labels, shouldCloseIssues, publish, token, dryRun, prerelease,
   } = input;
 
-  const newVersion = await generateVersion(versionOverride, append);
-  await writeVersion(newVersion, dryRun);
-  const issues = await getIssues(issueLabels, token);
-  const changelog = await createChangelog(newVersion, issues, dryRun);
-  await commitAndTag(newVersion, dryRun);
+  try {
+    const { newVersion } = await generateVersion({ override, append });
+    await writeVersion({ newVersion, dryRun });
+    const { issues } = await getIssues({ labels, token, dryRun });
+    const { changelog } = await createChangelog({ version: newVersion, issues, dryRun });
+    await commitAndTag({ version: newVersion, dryRun });
 
-  if (publish) {
-    release(newVersion, changelog, token, dryRun, prerelease);
-  }
+    if (publish) {
+      await release({
+        version: newVersion, changelog, token, dryRun, prerelease,
+      });
+    }
 
-  if (shouldCloseIssues && !dryRun) {
-    closeIssues(issues, newVersion, token);
-    removeLabels(issues, token);
+    if (shouldCloseIssues && !dryRun) {
+      await closeIssues({ issues, version: newVersion, token });
+      await removeLabels({ issues, token });
+    }
+  } catch (err) {
+    log.error(`Error: ${err.message}`);
+    process.exit(1);
   }
 }
 
-console.log(chalk.magenta(`Github Releaser (${version})`) + chalk.yellow(' by ') + chalk.cyan('Tom Hewitt'));
+log.info(`Github Releaser (${version}) by Tom Hewitt`);
 const schema = {
   properties: {
-    versionOverride: {
+    override: {
       type: 'string',
       description: 'Specify a version (hit enter to skip)',
     },
@@ -58,10 +66,10 @@ const schema = {
       message: chalk.yellow('Token is required!'),
       description: 'Github token',
     },
-    issueLabels: {
+    labels: {
       type: 'string',
       message: chalk.yellow('Issue labels are required!'),
-      description: 'Issue labels (e.g. bug coded)',
+      description: 'Issue labels (e.g. bug,coded,someLabel)',
     },
     shouldCloseIssues: {
       type: 'boolean',
@@ -96,7 +104,7 @@ prompt.start();
 
 prompt.get(schema, (err, input) => {
   if (err) {
-    error(`There was an error with prompt: ${err.message}`);
+    log.error(`There was an error with prompt: ${err.message}`);
     process.exit(1);
   }
 
