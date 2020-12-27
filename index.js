@@ -5,11 +5,11 @@ const fetch = require('node-fetch');
 const prompt = require('prompt');
 
 const log = require('./src/logger');
-const release = require('./src/release');
 const { commitAndTag } = require('./src/git');
 const { createChangelog } = require('./src/changelog');
 const { generateVersion, writeVersion } = require('./src/version');
 const { getIssues, closeIssues, removeLabels } = require('./src/issues');
+const { release } = require('./src/release');
 const { version } = require('./package.json');
 
 async function main(input) {
@@ -69,7 +69,7 @@ const schema = {
     labels: {
       type: 'string',
       message: chalk.yellow('Issue labels are required!'),
-      description: 'Issue labels (e.g. bug coded)',
+      description: 'Issue labels (e.g. bug,coded,someLabel)',
     },
     shouldCloseIssues: {
       type: 'boolean',

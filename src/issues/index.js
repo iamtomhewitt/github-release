@@ -6,16 +6,16 @@ module.exports = {
   async getIssues({ labels, token, dryRun }) {
     if (!apiUrl) {
       log.error('There is no "repository: { apiUrl : "<url>" }" in your package.json!');
-      return;
+      return { issues: [] };
     }
 
     if (dryRun) {
       log.success('Adding 0 issues to the release');
-      return;
+      return { issues: [] };
     }
 
     try {
-      const issues = await http.get({ url: `${apiUrl}/issues?labels=${labels.join(',')}`, token });
+      const issues = await http.get({ url: `${apiUrl}/issues?labels=${labels}`, token });
       log.success(`Adding ${issues.length} issues to the release`);
       return { issues };
     } catch (err) {
