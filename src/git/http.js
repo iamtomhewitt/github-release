@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 
-module.exports = {
+const http = {
   async get({ url, token }) {
     return fetch(url, {
       method: 'GET',
@@ -43,3 +43,5 @@ module.exports = {
     }).then((response) => response.json());
   },
 };
+
+module.exports = http;

@@ -1,6 +1,6 @@
 const branchName = require('current-git-branch');
 const simpleGit = require('simple-git');
-const { post } = require('../git/http');
+const http = require('../git/http');
 
 const cwd = process.cwd();
 const branch = branchName(cwd);
@@ -30,7 +30,7 @@ module.exports = {
         prerelease,
       };
 
-      await post({ url: `${apiUrl}/releases`, body, token });
+      await http.post({ url: `${apiUrl}/releases`, body, token });
 
       log.success('Pushed to origin with tags, and created Github release');
     } catch (err) {
