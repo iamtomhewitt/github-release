@@ -5,6 +5,8 @@ const { post } = require('../git/http');
 const cwd = process.cwd();
 const branch = branchName(cwd);
 const git = simpleGit(cwd);
+const log = require('../logger');
+
 const { apiUrl } = require(`${cwd}/package.json`).repository;
 
 module.exports = {
@@ -12,11 +14,8 @@ module.exports = {
     version, changelog, token, dryRun, prerelease,
   }) {
     if (dryRun) {
-      return {
-        success: true,
-        dryRun,
-        message: 'Pushed to origin with tags, and created Github release',
-      };
+      log.success('Pushed to origin with tags, and created Github release');
+      return;
     }
 
     try {
@@ -33,17 +32,9 @@ module.exports = {
 
       await post({ url: `${apiUrl}/releases`, body, token });
 
-      return {
-        success: true,
-        dryRun,
-        message: 'Pushed to origin with tags, and created Github release',
-      };
+      log.success('Pushed to origin with tags, and created Github release');
     } catch (err) {
-      return {
-        success: false,
-        dryRun,
-        message: err.message,
-      };
+      throw new Error(err.message);
     }
   },
 };
