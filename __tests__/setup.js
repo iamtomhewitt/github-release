@@ -1,3 +1,4 @@
+/* eslint-disable */
 global.console = {
   debug: console.debug,
   error: console.error,
