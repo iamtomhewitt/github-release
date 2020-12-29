@@ -11,7 +11,7 @@ module.exports = {
     const date = `${day}/${month}/${year}`;
 
     if (dryRun) {
-      log.success('CHANGELOG generated');
+      log.dryRun('CHANGELOG generated');
       return { changelog: '' };
     }
 
