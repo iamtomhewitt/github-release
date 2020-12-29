@@ -16,7 +16,12 @@ module.exports = {
 
     try {
       const issues = await http.get({ url: `${apiUrl}/issues?labels=${labels}`, token });
+
       log.success(`Adding ${issues.length} issues to the release`);
+      issues.forEach((i) => {
+        log.info(`\t#${i.number} - ${i.title}`);
+      });
+
       return { issues };
     } catch (err) {
       throw new Error(err.message);
