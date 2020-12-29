@@ -30,6 +30,8 @@ module.exports = {
         await http.post({ url: `${apiUrl}/issues/${number}/comments`, body: JSON.stringify({ body: `Included in version ${version}` }), token });
         await http.patch({ url: `${apiUrl}/issues/${number}`, body: JSON.stringify({ state: 'closed' }), token });
       });
+
+      log.success('Issues closed');
     } catch (err) {
       throw new Error(err.message);
     }
@@ -41,6 +43,8 @@ module.exports = {
         const { number } = issue;
         await http.remove({ url: `${apiUrl}/issues/${number}/labels`, token });
       });
+
+      log.success('Issue labels removed');
     } catch (err) {
       throw new Error(err.message);
     }
