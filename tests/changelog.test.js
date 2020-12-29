@@ -8,6 +8,7 @@ describe('changelog', () => {
   const issues = [];
 
   const logSuccessSpy = jest.spyOn(log, 'success');
+  const logDryRunSpy = jest.spyOn(log, 'dryRun');
   const fsReadSpy = jest.spyOn(fs.promises, 'readFile');
   const fsWriteSpy = jest.spyOn(fs.promises, 'writeFile');
 
@@ -19,7 +20,7 @@ describe('changelog', () => {
     const { changelog } = await createChangelog({ version, issues, dryRun: true });
 
     expect(changelog).toBe('');
-    expect(logSuccessSpy).toHaveBeenCalledWith('CHANGELOG generated');
+    expect(logDryRunSpy).toHaveBeenCalledWith('CHANGELOG generated');
     expect(fsReadSpy).not.toHaveBeenCalled();
     expect(fsWriteSpy).not.toHaveBeenCalled();
   });
