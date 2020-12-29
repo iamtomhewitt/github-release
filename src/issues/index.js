@@ -10,13 +10,18 @@ module.exports = {
     }
 
     if (dryRun) {
-      log.success('Adding 0 issues to the release');
+      log.dryRun('Adding 0 issues to the release');
       return { issues: [] };
     }
 
     try {
       const issues = await http.get({ url: `${apiUrl}/issues?labels=${labels}`, token });
+
       log.success(`Adding ${issues.length} issues to the release`);
+      issues.forEach((i) => {
+        log.info(`\t#${i.number} - ${i.title}`);
+      });
+
       return { issues };
     } catch (err) {
       throw new Error(err.message);
@@ -30,6 +35,8 @@ module.exports = {
         await http.post({ url: `${apiUrl}/issues/${number}/comments`, body: JSON.stringify({ body: `Included in version ${version}` }), token });
         await http.patch({ url: `${apiUrl}/issues/${number}`, body: JSON.stringify({ state: 'closed' }), token });
       });
+
+      log.success('Issues closed');
     } catch (err) {
       throw new Error(err.message);
     }
@@ -41,6 +48,8 @@ module.exports = {
         const { number } = issue;
         await http.remove({ url: `${apiUrl}/issues/${number}/labels`, token });
       });
+
+      log.success('Issue labels removed');
     } catch (err) {
       throw new Error(err.message);
     }

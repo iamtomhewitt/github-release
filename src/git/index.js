@@ -4,7 +4,7 @@ const log = require('../logger');
 module.exports = {
   async commitAndTag({ version, dryRun }) {
     if (dryRun) {
-      log.success(`Staged and committed changed files, and tagged version '${version}'`);
+      log.dryRun(`Staged and committed changed files, and tagged version '${version}'`);
       return;
     }
 
