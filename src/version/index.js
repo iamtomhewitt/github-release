@@ -50,7 +50,7 @@ module.exports = {
 
   async writeVersion({ newVersion, dryRun }) {
     if (dryRun) {
-      log.success(`Wrote ${newVersion} to package.json and package-lock.json`);
+      log.dryRun(`Wrote ${newVersion} to package.json and package-lock.json`);
       return;
     }
 
