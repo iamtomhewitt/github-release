@@ -10,7 +10,7 @@ module.exports = {
     }
 
     if (dryRun) {
-      log.success('Adding 0 issues to the release');
+      log.dryRun('Adding 0 issues to the release');
       return { issues: [] };
     }
 
