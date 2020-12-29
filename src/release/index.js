@@ -14,7 +14,7 @@ module.exports = {
     version, changelog, token, dryRun, prerelease,
   }) {
     if (dryRun) {
-      log.success('Pushed to origin with tags, and created Github release');
+      log.dryRun('Pushed to origin with tags, and created Github release');
       return;
     }
 
