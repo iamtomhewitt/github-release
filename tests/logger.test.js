@@ -1,4 +1,4 @@
-const log = require("../src/logger");
+const log = require('../src/logger');
 
 describe('logger', () => {
   it('logs without errors', async () => {
