@@ -1,6 +1,11 @@
 ![github-releaser](https://socialify.git.ci/iamtomhewitt/github-releaser/image?font=Inter&issues=1&language=1&stargazers=1&theme=Light)
 
-<p align="center"><img src="demo/demo.gif"></p>	
+<p align="center">
+	<img src="https://codecov.io/gh/iamtomhewitt/github-releaser/branch/master/graph/badge.svg?token=Q79OH9BRGQ"/>
+</p>	
+<p align="center">
+	<img src="demo/demo.gif">
+</p>	
 
 The above will create an entry in `CHANGELOG.md` and a [release on Github](https://github.com/iamtomhewitt/github-releaser/releases/latest):
 
