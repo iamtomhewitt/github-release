@@ -5,7 +5,8 @@ const log = require('../logger');
 module.exports = {
   async commitAndTag({ version, dryRun }) {
     if (dryRun) {
-      log.dryRun(`Staged and committed changed files, and tagged version '${version}'`);
+      log.dryRun('Committed files');
+      log.dryRun(`Tagged: ${version}`);
       return;
     }
 
@@ -23,7 +24,11 @@ module.exports = {
       await git.commit(`chore(release): ${version}`);
       await git.addTag(version);
 
-      log.success(`Staged and committed changed files, and tagged version '${version}'`);
+      log.success('Committed the following files:');
+      files.forEach((file) => {
+        log.info(`\t${file}`);
+      });
+      log.success(`Tagged: ${version}`);
     } catch (err) {
       throw new Error(err.message);
     }
