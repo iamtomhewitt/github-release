@@ -30,7 +30,7 @@ module.exports = {
         prerelease,
       };
 
-      await http.post({ url: `${apiUrl}/releases`, body, token });
+      await http.post({ url: `${apiUrl}/releases`, body: JSON.stringify(body), token });
 
       log.success('Pushed to origin with tags, and created Github release');
     } catch (err) {
