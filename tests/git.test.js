@@ -18,12 +18,16 @@ describe('git', () => {
   it('does not perform git actions in dry run mode', async () => {
     await commitAndTag({ version, dryRun: true });
 
-    expect(logDryRunSpy).toHaveBeenCalledWith('Staged and committed changed files, and tagged version \'1.2.3\'');
+    expect(logDryRunSpy).toHaveBeenCalledTimes(2);
+    expect(logDryRunSpy).toHaveBeenCalledWith('Committed files');
+    expect(logDryRunSpy).toHaveBeenCalledWith('Tagged: 1.2.3');
   });
 
   it('runs git actions', async () => {
     await commitAndTag({ version, dryRun: false });
 
-    expect(logSuccessSpy).toHaveBeenCalledWith('Staged and committed changed files, and tagged version \'1.2.3\'');
+    expect(logSuccessSpy).toHaveBeenCalledTimes(2);
+    expect(logSuccessSpy).toHaveBeenCalledWith('Committed the following files:');
+    expect(logSuccessSpy).toHaveBeenCalledWith('Tagged: 1.2.3');
   });
 });
