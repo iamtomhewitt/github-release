@@ -1,3 +1,15 @@
+## 1.5.0 (31/12/2020) 
+
+
+### Issues in this release:
+
+* [#33](https://github.com/iamtomhewitt/github-releaser/issues/33) - Add tests
+* [#32](https://github.com/iamtomhewitt/github-releaser/issues/32) - Use github actions for linting and tests
+* [#31](https://github.com/iamtomhewitt/github-releaser/issues/31) - Tidy code
+* [#29](https://github.com/iamtomhewitt/github-releaser/issues/29) - Update pom.xml if present
+
+
+
 ## 1.4.0 (12/09/2020) 
 
 
