@@ -27,12 +27,13 @@ module.exports = {
         newContents += `* [#${number}](${url}) - ${title}\n`;
       });
 
+      const newChangelog = newContents;
       newContents += currentContents ? `\n\n\n${currentContents}` : '';
 
       await fs.promises.writeFile(changelogLocation, newContents);
 
       log.success('CHANGELOG generated');
-      return { changelog: newContents };
+      return { changelog: newChangelog };
     } catch (err) {
       throw new Error(err.message);
     }
