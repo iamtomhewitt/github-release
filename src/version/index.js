@@ -62,6 +62,15 @@ module.exports = {
       await fs.promises.writeFile(`${cwd}/package-lock.json`, JSON.stringify(packageLockFile, null, 4));
 
       log.success(`Wrote ${newVersion} to package.json and package-lock.json`);
+
+      const pomLocation = `${cwd}/pom.xml`;
+      if (fs.existsSync(pomLocation)) {
+        log.info('pom.xml detected');
+        const pomContents = await fs.promises.readFile(pomLocation);
+        const newPom = pomContents.toString().replace(`<version>${version}</version>`, `<version>${newVersion}</version>`);
+        await fs.promises.writeFile(pomLocation, newPom);
+        log.success(`Wrote ${newVersion} to pom.xml`);
+      }
     } catch (err) {
       throw new Error(err.message);
     }
