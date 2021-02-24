@@ -16,7 +16,7 @@ module.exports = {
     }
 
     try {
-      const changelogLocation = `${cwd}/CHANGEsLOG.md`;
+      const changelogLocation = `${cwd}/CHANGELOG.md`;
       const exists = await fs.existsSync(changelogLocation);
 
       if (!exists) {
