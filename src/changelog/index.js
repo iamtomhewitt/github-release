@@ -17,6 +17,13 @@ module.exports = {
 
     try {
       const changelogLocation = `${cwd}/CHANGELOG.md`;
+      const exists = await fs.existsSync(changelogLocation);
+
+      if (!exists) {
+        log.info('CHANGELOG not found, creating one');
+        await fs.promises.writeFile(changelogLocation, '');
+      }
+
       const currentContents = await fs.promises.readFile(changelogLocation);
 
       let newContents = `## ${version} (${date}) \n\n\n`;
@@ -27,13 +34,13 @@ module.exports = {
         newContents += `* [#${number}](${url}) - ${title}\n`;
       });
 
-      const newChangelog = newContents;
+      const changelog = newContents;
       newContents += currentContents ? `\n\n\n${currentContents}` : '';
 
       await fs.promises.writeFile(changelogLocation, newContents);
 
       log.success('CHANGELOG generated');
-      return { changelog: newChangelog };
+      return { changelog };
     } catch (err) {
       throw new Error(err.message);
     }

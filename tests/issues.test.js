@@ -2,16 +2,12 @@ const { getIssues, closeIssues, removeLabels } = require('../src/issues');
 const log = require('../src/logger');
 
 jest.mock('node-fetch', () => {
-  const context = {
+  return jest.fn(() => ({
     then: jest.fn().mockImplementationOnce(() => Promise.resolve([{ number: '1', title: 'test' }])),
-  };
-  return jest.fn(() => context);
+  }));
 });
 
 describe('issues', () => {
-  const logSuccessSpy = jest.spyOn(log, 'success');
-  const logDryRunSpy = jest.spyOn(log, 'dryRun');
-  const logErrorSpy = jest.spyOn(log, 'error');
 
   const labels = 'bug,coded';
   const token = '12345';
@@ -19,6 +15,10 @@ describe('issues', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+
+    spyOn(log, 'success');
+    spyOn(log, 'dryRun');
+    spyOn(log, 'error');
   });
 
   describe('get issues', () => {
@@ -26,7 +26,7 @@ describe('issues', () => {
       const { issues } = await getIssues({ labels, token, dryRun: true });
 
       expect(issues).toHaveLength(0);
-      expect(logDryRunSpy).toHaveBeenCalledWith('Adding 0 issues to the release');
+      expect(log.dryRun).toHaveBeenCalledWith('Adding 0 issues to the release');
     });
 
     // TODO find a way to mock package.json contents for a test
@@ -35,14 +35,14 @@ describe('issues', () => {
       const { issues } = await getIssues({ labels, token, dryRun: false });
 
       expect(issues).toHaveLength(0);
-      expect(logErrorSpy).toHaveBeenCalledWith('There is no "repository: { apiUrl : "<url>" }" in your package.json!');
+      expect(log.error).toHaveBeenCalledWith('There is no "repository: { apiUrl : "<url>" }" in your package.json!');
     });
 
     it('returns issues', async () => {
       const { issues } = await getIssues({ labels, token, dryRun: false });
 
       expect(issues).toHaveLength(1);
-      expect(logSuccessSpy).toHaveBeenCalledWith('Adding 1 issues to the release');
+      expect(log.success).toHaveBeenCalledWith('Adding 1 issues to the release');
     });
   });
 
@@ -52,7 +52,7 @@ describe('issues', () => {
 
       await closeIssues({ issues, version, token });
 
-      expect(logSuccessSpy).toHaveBeenCalledWith('Issues closed');
+      expect(log.success).toHaveBeenCalledWith('Issues closed');
     });
   });
 
@@ -62,7 +62,7 @@ describe('issues', () => {
 
       await removeLabels({ issues, token });
 
-      expect(logSuccessSpy).toHaveBeenCalledWith('Issue labels removed');
+      expect(log.success).toHaveBeenCalledWith('Issue labels removed');
     });
   });
 });
