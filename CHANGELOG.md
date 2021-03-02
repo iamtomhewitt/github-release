@@ -1,3 +1,12 @@
+## 1.5.1 (02/03/2021) 
+
+
+### Issues in this release:
+
+* [#39](https://github.com/iamtomhewitt/github-releaser/issues/39) - If repo has no CHANGELOG, then failure happens
+
+
+
 ## 1.5.0 (31/12/2020) 
 
 
