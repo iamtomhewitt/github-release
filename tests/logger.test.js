@@ -1,11 +1,13 @@
 const log = require('../src/logger');
 
 describe('logger', () => {
-  it('logs without errors', async () => {
-    log.dryRun('test');
-    log.warn('test');
-    log.error('test');
-    log.info('test');
-    log.success('test');
+
+  it('logs info', () => {
+    log.info('hello')
+    log.success('hello')
+    log.warn('hello')
+    log.error('hello')
+    log.dryRun('hello')
+    expect(global.console.log).toHaveBeenCalledTimes(5)
   });
 });
