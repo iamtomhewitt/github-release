@@ -1,3 +1,17 @@
+## 1.6.0 (27/10/2021) 
+
+
+### Issues in this release:
+
+* [#56](https://github.com/iamtomhewitt/github-releaser/issues/56) - Entering blank issues brings back all issues
+* [#55](https://github.com/iamtomhewitt/github-releaser/issues/55) - Rework tests
+* [#54](https://github.com/iamtomhewitt/github-releaser/issues/54) - Alternate coverage collection
+* [#53](https://github.com/iamtomhewitt/github-releaser/issues/53) - Improve dryRun option
+* [#52](https://github.com/iamtomhewitt/github-releaser/issues/52) - Does not handle bad credentials when using invalid Github token
+* [#50](https://github.com/iamtomhewitt/github-releaser/issues/50) - Update all package files in a repo
+
+
+
 ## 1.5.1 (02/03/2021) 
 
 
