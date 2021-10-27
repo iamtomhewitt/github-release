@@ -4,7 +4,7 @@
     "description": "Bump version, generate changelog with issue links, commit, tag, push and create Github release, all automatically.",
     "scripts": {
 		"coverage": "npm test >> coverage.txt",
-        "lint": "eslint --ignore-path .gitignore .",
+        "lint": "eslint --ignore-path .eslintignore .",
         "lint-fix": "npm run lint -- --fix",
         "main": "node index.js",
         "release": "node index.js && npm login && npm release",
