@@ -1,5 +1,5 @@
+const glob = require('glob');
 const simpleGit = require('simple-git');
-const fs = require('fs');
 const log = require('../logger');
 
 module.exports = {
@@ -13,14 +13,15 @@ module.exports = {
     try {
       const cwd = process.cwd();
       const git = simpleGit(cwd);
-      const pomLocation = `${cwd}/pom.xml`;
-      const files = [`${cwd}/CHANGELOG.md`, `${cwd}/package.json`, `${cwd}/package-lock.json`];
+      const filesToFind = '**/*(package.json|package-lock.json|pom.xml)';
+      const files = await glob.sync(filesToFind, { ignore: 'node_modules/**' });
 
-      if (fs.existsSync(pomLocation)) {
-        files.push(`${cwd}/pom.xml`);
-      }
+      files.forEach(async (file) => {
+        const filePath = `${cwd}/${file}`;
+        await git.add(filePath);
+      });
 
-      await git.add(files);
+      await git.add(`${cwd}/CHANGELOG.md`);
       await git.commit(`chore(release): ${version}`);
       await git.addTag(version);
 
