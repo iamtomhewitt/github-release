@@ -30,7 +30,6 @@ describe('git', () => {
     await commitAndTag({ version, dryRun: false });
 
     expect(log.success).toHaveBeenCalledTimes(2);
-    expect(log.success).toHaveBeenCalledWith('Committed the following files:');
     expect(log.success).toHaveBeenCalledWith('Tagged: 1.2.3');
   });
 });

@@ -25,10 +25,7 @@ module.exports = {
       await git.commit(`chore(release): ${version}`);
       await git.addTag(version);
 
-      log.success('Committed the following files:');
-      files.forEach((file) => {
-        log.info(`\t${file}`);
-      });
+      log.success(`Committed ${files.length} files: \n\t${files.join(', \n\t')}`);
       log.success(`Tagged: ${version}`);
     } catch (err) {
       throw new Error(err.message);
