@@ -8,7 +8,16 @@ const http = {
         'Content-Type': 'application/json',
         Authorization: `token ${token}`,
       },
-    }).then((response) => response.json());
+    }).then((response) => {
+      if (response.status / 100 !== 2) {
+        let message = `Http request failed: ${response.statusText}`;
+        if (response.status === 401) {
+          message += ' (is your Github token correct?)';
+        }
+        throw new Error(message);
+      }
+      return response.json();
+    });
   },
 
   async post({ url, body, token }) {
@@ -30,7 +39,16 @@ const http = {
         'Content-Type': 'application/json',
         Authorization: `token ${token}`,
       },
-    }).then((response) => response.json());
+    }).then((response) => {
+      if (response.status / 100 !== 2) {
+        let message = `Http request failed: ${response.statusText}`;
+        if (response.status === 401) {
+          message += ' (is your Github token correct?)';
+        }
+        throw new Error(message);
+      }
+      return response.json();
+    });
   },
 
   async remove({ url, token }) {
