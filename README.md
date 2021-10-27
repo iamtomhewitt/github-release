@@ -1,8 +1,7 @@
-![github-releaser](https://socialify.git.ci/iamtomhewitt/github-releaser/image?font=Inter&issues=1&language=1&stargazers=1&theme=Light)
+# Github Releaser
 
-<p align="center">
-	<img src="https://codecov.io/gh/iamtomhewitt/github-releaser/branch/master/graph/badge.svg?token=Q79OH9BRGQ"/>
-</p>	
+![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/iamtomhewitt/70cdd8c15770b5fc44e7bb2b8fac0042/raw/github-releaser__heads_master.json)
+
 <p align="center">
 	<img src="demo/demo.gif">
 </p>	
@@ -22,19 +21,19 @@ The above will create an entry in `CHANGELOG.md` and a [release on Github](https
 npm install github-releaser
 ```
 
-#### Add the api url to your `package.json`:
+### Add the api url to your `package.json`:
 ```json
 "repository": {
     "apiUrl": "https://api.github.com/repos/<your username>/<your repo name>"
 }
 ```
 
-#### Add a script to your `package.json`:
+### Add a script to your `package.json`:
 ```json
 "scripts": {
     "release": "github-releaser"
 }
 ```
 
-#### Create a Github access token
+### Create a Github access token
 It will be needed in order to fetch issues and create releases. It must have the **repo** scope applied.
