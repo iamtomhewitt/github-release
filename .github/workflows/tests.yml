@@ -42,7 +42,7 @@ jobs:
       with:
         auth: ${{ secrets.GIST_SECRET }}
         gistID: 70cdd8c15770b5fc44e7bb2b8fac0042
-        filename: home-dashboard-recipe-manager__${{ env.BRANCH }}.json
+        filename: github-releaser__${{ env.BRANCH }}.json
         label: coverage
         message: ${{ env.COVERAGE }}
         color: green
