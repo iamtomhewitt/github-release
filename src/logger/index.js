@@ -18,10 +18,6 @@ const log = {
     // eslint-disable-next-line
     console.log(`${chalk.blue(figures.info)} ${message}`);
   },
-  dryRun(message) {
-    // eslint-disable-next-line
-    console.log(`${chalk.magenta(figures.circleDouble)} DRY RUN: ${message}`);
-  },
 };
 
 module.exports = log;

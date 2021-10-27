@@ -13,11 +13,12 @@ describe('changelog', () => {
     fs.promises.writeFile = jest.fn();
   });
 
-  it('should not create a changelog in dry run mode', async () => {
+  it('should create a changelog in dry run mode', async () => {
     const { changelog } = await createChangelog({ version, issues, dryRun: true });
 
-    expect(changelog).toBe('');
-    expect(fs.promises.readFile).not.toHaveBeenCalled();
+    expect(changelog).toContain(version);
+    expect(changelog).toContain('There are no issues in this release');
+    expect(fs.promises.readFile).toHaveBeenCalled();
     expect(fs.promises.writeFile).not.toHaveBeenCalled();
   });
 

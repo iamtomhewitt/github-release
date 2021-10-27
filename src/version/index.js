@@ -47,11 +47,6 @@ module.exports = {
   },
 
   async writeVersion({ newVersion, dryRun }) {
-    if (dryRun) {
-      log.dryRun(`Wrote ${newVersion} to the above files!`);
-      return;
-    }
-
     try {
       const filesToFind = '**/*(package.json|package-lock.json|pom.xml)';
       const files = await glob.sync(filesToFind, { ignore: 'node_modules/**' });
@@ -61,14 +56,17 @@ module.exports = {
         const isPackageFile = file.endsWith('.json');
         const isPomFile = file.endsWith('.xml');
         const fullFilePath = `${cwd}/${file}`;
-        if (isPackageFile) {
-          const actualFile = require(fullFilePath);
-          actualFile.version = newVersion;
-          await fs.promises.writeFile(fullFilePath, JSON.stringify(actualFile, null, 4));
-        } else if (isPomFile) {
-          const pomContents = await fs.promises.readFile(fullFilePath);
-          const newPom = pomContents.toString().replace(`<version>${version}</version>`, `<version>${newVersion}</version>`);
-          await fs.promises.writeFile(fullFilePath, newPom);
+
+        if (!dryRun) {
+          if (isPackageFile) {
+            const actualFile = require(fullFilePath);
+            actualFile.version = newVersion;
+            await fs.promises.writeFile(fullFilePath, JSON.stringify(actualFile, null, 4));
+          } else if (isPomFile) {
+            const pomContents = await fs.promises.readFile(fullFilePath);
+            const newPom = pomContents.toString().replace(`<version>${version}</version>`, `<version>${newVersion}</version>`);
+            await fs.promises.writeFile(fullFilePath, newPom);
+          }
         }
       });
 
