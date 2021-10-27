@@ -23,13 +23,16 @@ describe('issues', () => {
   describe('getting issues', () => {
     it('should return no issues in dry run mode', async () => {
       const { issues } = await getIssues({ labels, token, dryRun: true });
+      expect(issues).toHaveLength(0);
+    });
 
+    it('should return no issues when no labels supplied', async () => {
+      const { issues } = await getIssues({ labels: '', token, dryRun: false });
       expect(issues).toHaveLength(0);
     });
 
     it('should return issues', async () => {
       const { issues } = await getIssues({ labels, token, dryRun: false });
-
       expect(issues).toHaveLength(1);
     });
   });
