@@ -5,12 +5,6 @@ const log = require('../logger');
 
 module.exports = {
   async commitAndTag({ version, dryRun }) {
-    if (dryRun) {
-      log.dryRun('Committed files');
-      log.dryRun(`Tagged: ${version}`);
-      return;
-    }
-
     try {
       const cwd = process.cwd();
       const git = simpleGit(cwd);
@@ -19,12 +13,16 @@ module.exports = {
 
       files.forEach(async (file) => {
         const filePath = `${cwd}/${file}`;
-        await git.add(filePath);
+        if (!dryRun) {
+          await git.add(filePath);
+        }
       });
 
-      await git.add(`${cwd}/CHANGELOG.md`);
-      await git.commit(`chore(release): ${version}`);
-      await git.addTag(version);
+      if (!dryRun) {
+        await git.add(`${cwd}/CHANGELOG.md`);
+        await git.commit(`chore(release): ${version}`);
+        await git.addTag(version);
+      }
 
       log.success(`Committed ${files.length} files: \n\t${files.join(', \n\t')}`);
       log.success(`Tagged: ${version}`);

@@ -10,18 +10,16 @@ module.exports = {
     const year = today.getFullYear();
     const date = `${day}/${month}/${year}`;
 
-    if (dryRun) {
-      log.dryRun('CHANGELOG generated');
-      return { changelog: '' };
-    }
-
     try {
       const changelogLocation = `${cwd}/CHANGELOG.md`;
       const exists = await fs.existsSync(changelogLocation);
 
       if (!exists) {
         log.info('CHANGELOG not found, creating one');
-        await fs.promises.writeFile(changelogLocation, '');
+
+        if (!dryRun) {
+          await fs.promises.writeFile(changelogLocation, '');
+        }
       }
 
       const currentContents = await fs.promises.readFile(changelogLocation);
@@ -37,7 +35,9 @@ module.exports = {
       const changelog = newContents;
       newContents += currentContents ? `\n\n\n${currentContents}` : '';
 
-      await fs.promises.writeFile(changelogLocation, newContents);
+      if (!dryRun) {
+        await fs.promises.writeFile(changelogLocation, newContents);
+      }
 
       log.success('CHANGELOG generated');
       return { changelog };

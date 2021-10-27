@@ -16,14 +16,13 @@ describe('issues', () => {
     jest.resetModules();
 
     jest.spyOn(log, 'success');
-    jest.spyOn(log, 'dryRun');
     jest.spyOn(log, 'error');
   });
 
   describe('getting issues', () => {
-    it('should return no issues in dry run mode', async () => {
+    it('should return issues in dry run mode', async () => {
       const { issues } = await getIssues({ labels, token, dryRun: true });
-      expect(issues).toHaveLength(0);
+      expect(issues).toHaveLength(1);
     });
 
     it('should return no issues when no labels supplied', async () => {

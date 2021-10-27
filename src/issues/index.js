@@ -3,14 +3,9 @@ const log = require('../logger');
 const http = require('../git/http');
 
 module.exports = {
-  async getIssues({ labels, token, dryRun }) {
+  async getIssues({ labels, token }) {
     if (!apiUrl) {
       log.error('There is no "repository: { apiUrl : "<url>" }" in your package.json!');
-      return { issues: [] };
-    }
-
-    if (dryRun) {
-      log.dryRun('Adding 0 issues to the release');
       return { issues: [] };
     }
 

@@ -13,14 +13,18 @@ const { release } = require('./src/release');
 const { version } = require('./package.json');
 
 async function main(input) {
+  const { append, dryRun, labels, override, prerelease, publish, shouldCloseIssues, token } = input;
+
+  if (dryRun) {
+    log.info('=== Running in dry run mode ===');
+  }
+
   const latestRelease = await fetch('https://api.github.com/repos/iamtomhewitt/github-releaser/releases/latest');
   const data = await latestRelease.json();
 
   if (version !== data.tag_name) {
     log.warn(`Your version of github-releaser (${version}) is different to that from npm (${data.tag_name}) - please update when you can!`);
   }
-
-  const { override, append, labels, shouldCloseIssues, publish, token, dryRun, prerelease } = input;
 
   try {
     const { newVersion } = await generateVersion({ currentVersion: version, override, append });
