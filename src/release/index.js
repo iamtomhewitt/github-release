@@ -11,24 +11,21 @@ const { apiUrl } = require(`${cwd}/package.json`).repository;
 
 module.exports = {
   async release({ version, changelog, token, dryRun, prerelease }) {
-    if (dryRun) {
-      log.dryRun('Pushed to origin with tags, and created Github release');
-      return;
-    }
-
     try {
-      await git.push('origin', branch);
-      await git.pushTags('origin');
+      if (!dryRun) {
+        await git.push('origin', branch);
+        await git.pushTags('origin');
 
-      const body = {
-        tag_name: version,
-        name: version,
-        body: changelog,
-        draft: false,
-        prerelease,
-      };
+        const body = {
+          tag_name: version,
+          name: version,
+          body: changelog,
+          draft: false,
+          prerelease,
+        };
 
-      await http.post({ url: `${apiUrl}/releases`, body: JSON.stringify(body), token });
+        await http.post({ url: `${apiUrl}/releases`, body: JSON.stringify(body), token });
+      }
 
       log.success('Pushed to origin with tags, and created Github release');
     } catch (err) {
