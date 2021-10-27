@@ -1,14 +1,11 @@
 const { getIssues, closeIssues, removeLabels } = require('../src/issues');
 const log = require('../src/logger');
 
-jest.mock('node-fetch', () => {
-  return jest.fn(() => ({
-    then: jest.fn().mockImplementationOnce(() => Promise.resolve([{ number: '1', title: 'test' }])),
-  }));
-});
+jest.mock('node-fetch', () => jest.fn(() => ({
+  then: jest.fn().mockImplementationOnce(() => Promise.resolve([{ number: '1', title: 'test' }])),
+})));
 
 describe('issues', () => {
-
   const labels = 'bug,coded';
   const token = '12345';
   const version = '1.2.3';
