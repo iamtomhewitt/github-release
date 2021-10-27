@@ -1,5 +1,5 @@
-const { commitAndTag } = require('../src/git');
-const log = require('../src/logger');
+const { commitAndTag } = require('../git');
+const log = require('../logger');
 
 jest.mock('simple-git', () => {
   const mGit = {

@@ -1,8 +1,8 @@
 const fs = require('fs');
 const sinon = require('sinon');
 const util = require('util');
-const log = require('../src/logger');
-const { generateVersion, writeVersion } = require('../src/version');
+const log = require('../logger');
+const { generateVersion, writeVersion } = require('.');
 
 const { version } = require(`${process.cwd()}/package.json`);
 

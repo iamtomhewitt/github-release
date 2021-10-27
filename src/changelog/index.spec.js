@@ -1,6 +1,6 @@
 const fs = require('fs');
-const log = require('../src/logger');
-const { createChangelog } = require('../src/changelog');
+const log = require('../logger');
+const { createChangelog } = require('.');
 
 describe('changelog', () => {
   const version = '1.2.3';

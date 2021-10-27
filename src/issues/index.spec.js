@@ -1,5 +1,5 @@
-const { getIssues, closeIssues, removeLabels } = require('../src/issues');
-const log = require('../src/logger');
+const { getIssues, closeIssues, removeLabels } = require('.');
+const log = require('../logger');
 
 jest.mock('node-fetch', () => jest.fn(() => ({
   then: jest.fn().mockImplementationOnce(() => Promise.resolve([{ number: '1', title: 'test' }])),

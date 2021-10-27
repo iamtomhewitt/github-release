@@ -1,6 +1,6 @@
-const http = require('../src/git/http');
-const log = require('../src/logger');
-const { release } = require('../src/release');
+const http = require('../git/http');
+const log = require('../logger');
+const { release } = require('.');
 
 jest.mock('simple-git', () => {
   const mGit = {
