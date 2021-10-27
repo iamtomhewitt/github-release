@@ -17,7 +17,7 @@ const log = {
   info(message) {
     // eslint-disable-next-line
     console.log(`${chalk.blue(figures.info)} ${message}`);
-  }
+  },
 };
 
 module.exports = log;
