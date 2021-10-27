@@ -10,9 +10,7 @@ const log = require('../logger');
 const { apiUrl } = require(`${cwd}/package.json`).repository;
 
 module.exports = {
-  async release({
-    version, changelog, token, dryRun, prerelease,
-  }) {
+  async release({ version, changelog, token, dryRun, prerelease }) {
     if (dryRun) {
       log.dryRun('Pushed to origin with tags, and created Github release');
       return;
