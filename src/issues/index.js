@@ -14,6 +14,11 @@ module.exports = {
       return { issues: [] };
     }
 
+    if (labels.length === 0) {
+      log.info('No issue labels supplied, no issues will be included');
+      return { issues: [] };
+    }
+
     try {
       const issues = await http.get({ url: `${apiUrl}/issues?labels=${labels}`, token });
 
