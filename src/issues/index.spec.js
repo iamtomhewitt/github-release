@@ -13,9 +13,9 @@ describe('issues', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    spyOn(log, 'success');
-    spyOn(log, 'dryRun');
-    spyOn(log, 'error');
+    jest.spyOn(log, 'success');
+    jest.spyOn(log, 'dryRun');
+    jest.spyOn(log, 'error');
   });
 
   describe('get issues', () => {

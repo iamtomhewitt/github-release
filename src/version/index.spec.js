@@ -10,8 +10,8 @@ util.promisify = jest.fn();
 
 describe('version', () => {
   beforeEach(() => {
-    spyOn(log, 'success');
-    spyOn(log, 'dryRun');
+    jest.spyOn(log, 'success');
+    jest.spyOn(log, 'dryRun');
 
     sinon.restore();
     jest.clearAllMocks();

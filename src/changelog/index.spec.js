@@ -7,11 +7,11 @@ describe('changelog', () => {
   const issues = [];
 
   beforeEach(() => {
-    spyOn(log, 'success');
-    spyOn(log, 'dryRun');
-    spyOn(log, 'info');
-    spyOn(fs.promises, 'writeFile');
-    spyOn(fs.promises, 'readFile');
+    jest.spyOn(log, 'success');
+    jest.spyOn(log, 'dryRun');
+    jest.spyOn(log, 'info');
+    jest.spyOn(fs.promises, 'writeFile');
+    jest.spyOn(fs.promises, 'readFile');
 
     fs.promises.writeFile = jest.fn();
   });

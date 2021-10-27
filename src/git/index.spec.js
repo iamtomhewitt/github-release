@@ -1,4 +1,4 @@
-const { commitAndTag } = require('../git');
+const { commitAndTag } = require('.');
 const log = require('../logger');
 
 jest.mock('simple-git', () => {
@@ -14,8 +14,8 @@ describe('git', () => {
   const version = '1.2.3';
 
   beforeEach(() => {
-    spyOn(log, 'success');
-    spyOn(log, 'dryRun');
+    jest.spyOn(log, 'success');
+    jest.spyOn(log, 'dryRun');
   });
 
   it('does not perform git actions in dry run mode', async () => {

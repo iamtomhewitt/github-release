@@ -23,8 +23,8 @@ describe('release', () => {
   const httpSpy = jest.spyOn(http, 'post').mockResolvedValue({});
 
   beforeEach(() => {
-    spyOn(log, 'success');
-    spyOn(log, 'dryRun');
+    jest.spyOn(log, 'success');
+    jest.spyOn(log, 'dryRun');
   });
 
   it('does not release in dry run mode', async () => {
