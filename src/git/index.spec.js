@@ -1,35 +1,37 @@
-const { commitAndTag } = require('.');
-const log = require('../logger');
+const simpleGit = require('simple-git');
 
-jest.mock('simple-git', () => {
-  const mGit = {
-    add: jest.fn(),
-    addTag: jest.fn(),
-    commit: jest.fn(),
-  };
-  return jest.fn(() => mGit);
-});
+const log = require('../logger');
+const { commitAndTag } = require('.');
+
+jest.mock('simple-git', () => () => ({
+  add: () => 'added',
+  addTag: () => 'added tag',
+  commit: () => 'commited',
+}));
 
 describe('git', () => {
+  const git = simpleGit(process.cwd());
   const version = '1.2.3';
 
   beforeEach(() => {
-    jest.spyOn(log, 'success');
-    jest.spyOn(log, 'dryRun');
+    jest.spyOn(git, 'add');
+    jest.spyOn(git, 'addTag');
+    jest.spyOn(git, 'commit');
   });
 
-  it('does not perform git actions in dry run mode', async () => {
+  it('should not perform git actions in dry run mode', async () => {
     await commitAndTag({ version, dryRun: true });
 
-    expect(log.dryRun).toHaveBeenCalledTimes(2);
-    expect(log.dryRun).toHaveBeenCalledWith('Committed files');
-    expect(log.dryRun).toHaveBeenCalledWith('Tagged: 1.2.3');
+    expect(git.add).not.toHaveBeenCalled();
+    expect(git.addTag).not.toHaveBeenCalled();
+    expect(git.commit).not.toHaveBeenCalled();
   });
 
-  it('runs git actions', async () => {
+  it('should run git actions', async () => {
+    jest.spyOn(log, 'success');
+
     await commitAndTag({ version, dryRun: false });
 
-    expect(log.success).toHaveBeenCalledTimes(2);
     expect(log.success).toHaveBeenCalledWith('Tagged: 1.2.3');
   });
 });

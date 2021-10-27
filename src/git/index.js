@@ -1,5 +1,6 @@
 const glob = require('glob');
 const simpleGit = require('simple-git');
+
 const log = require('../logger');
 
 module.exports = {

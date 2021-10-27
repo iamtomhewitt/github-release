@@ -20,21 +20,20 @@ async function main(input) {
     log.warn(`Your version of github-releaser (${version}) is different to that from npm (${data.tag_name}) - please update when you can!`);
   }
 
-  const {
-    override, append, labels, shouldCloseIssues, publish, token, dryRun, prerelease,
-  } = input;
+  const { override, append, labels, shouldCloseIssues, publish, token, dryRun, prerelease } = input;
 
   try {
-    const { newVersion } = await generateVersion({ override, append });
-    await writeVersion({ newVersion, dryRun });
+    const { newVersion } = await generateVersion({ currentVersion: version, override, append });
+    await writeVersion({ currentVersion: version, newVersion, dryRun });
+
     const { issues } = await getIssues({ labels, token, dryRun });
+
     const { changelog } = await createChangelog({ version: newVersion, issues, dryRun });
+
     await commitAndTag({ version: newVersion, dryRun });
 
     if (publish) {
-      await release({
-        version: newVersion, changelog, token, dryRun, prerelease,
-      });
+      await release({ version: newVersion, changelog, token, dryRun, prerelease });
     }
 
     if (shouldCloseIssues && !dryRun) {

@@ -1,4 +1,5 @@
 const { getIssues, closeIssues, removeLabels } = require('.');
+const http = require('../git/http');
 const log = require('../logger');
 
 jest.mock('node-fetch', () => jest.fn(() => ({
@@ -12,54 +13,48 @@ describe('issues', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.resetModules();
 
     jest.spyOn(log, 'success');
     jest.spyOn(log, 'dryRun');
     jest.spyOn(log, 'error');
   });
 
-  describe('get issues', () => {
-    it('returns 0 issues in dry run mode', async () => {
+  describe('getting issues', () => {
+    it('should return no issues in dry run mode', async () => {
       const { issues } = await getIssues({ labels, token, dryRun: true });
 
       expect(issues).toHaveLength(0);
-      expect(log.dryRun).toHaveBeenCalledWith('Adding 0 issues to the release');
     });
 
-    // TODO find a way to mock package.json contents for a test
-    xit('returns 0 issues when there is no api url', async () => {
-      jest.mock('../src/issues', () => ({ getApiUrl: jest.fn() }));
-      const { issues } = await getIssues({ labels, token, dryRun: false });
-
-      expect(issues).toHaveLength(0);
-      expect(log.error).toHaveBeenCalledWith('There is no "repository: { apiUrl : "<url>" }" in your package.json!');
-    });
-
-    it('returns issues', async () => {
+    it('should return issues', async () => {
       const { issues } = await getIssues({ labels, token, dryRun: false });
 
       expect(issues).toHaveLength(1);
-      expect(log.success).toHaveBeenCalledWith('Adding 1 issues to the release');
     });
   });
 
-  describe('close issues', () => {
-    it('makes the correct number of calls', async () => {
+  describe('closing issues', () => {
+    it('should close issues', async () => {
+      jest.spyOn(http, 'post').mockImplementation(() => {});
+      jest.spyOn(http, 'patch').mockImplementation(() => {});
       const issues = [{ number: '1' }, { number: '2' }];
 
       await closeIssues({ issues, version, token });
 
-      expect(log.success).toHaveBeenCalledWith('Issues closed');
+      expect(http.post).toHaveBeenCalledTimes(2);
+      expect(http.patch).toHaveBeenCalledTimes(2);
     });
   });
 
-  describe('remove issues', () => {
-    it('makes the correct number of calls', async () => {
+  describe('removing issues', () => {
+    it('should remove issues', async () => {
+      jest.spyOn(http, 'remove').mockImplementation(() => {});
       const issues = [{ number: '1' }, { number: '2' }];
 
       await removeLabels({ issues, token });
 
-      expect(log.success).toHaveBeenCalledWith('Issue labels removed');
+      expect(http.remove).toHaveBeenCalledTimes(2);
     });
   });
 });

@@ -1,48 +1,32 @@
 const http = require('../git/http');
-const log = require('../logger');
 const { release } = require('.');
 
-jest.mock('simple-git', () => {
-  const mGit = {
-    add: jest.fn(),
-    addTag: jest.fn(),
-    commit: jest.fn(),
-    push: jest.fn(),
-    pushTags: jest.fn(),
-  };
-  return jest.fn(() => mGit);
-});
+jest.mock('simple-git', () => () => ({
+  add: () => 'add',
+  addTag: () => 'add tag',
+  commit: () => 'commit',
+  push: () => 'push',
+  pushTags: () => 'push tags',
+}));
 
 describe('release', () => {
   const version = '1.2.3';
-  const changelog = '';
+  const changelog = 'changelog';
   const token = '12345';
   const issues = [];
   const prerelease = false;
 
-  const httpSpy = jest.spyOn(http, 'post').mockResolvedValue({});
-
   beforeEach(() => {
-    jest.spyOn(log, 'success');
-    jest.spyOn(log, 'dryRun');
+    jest.spyOn(http, 'post').mockResolvedValue({});
   });
 
   it('does not release in dry run mode', async () => {
-    await release({
-      version, changelog, token, issues, dryRun: true, prerelease,
-    });
-
-    expect(log.dryRun).toHaveBeenCalledWith('Pushed to origin with tags, and created Github release');
-    expect(log.success).not.toHaveBeenCalled();
-    expect(httpSpy).not.toHaveBeenCalled();
+    await release({ version, changelog, token, issues, dryRun: true, prerelease });
+    expect(http.post).not.toHaveBeenCalled();
   });
 
   it('creates a release', async () => {
-    await release({
-      version, changelog, token, issues, dryRun: false, prerelease,
-    });
-
-    expect(log.success).toHaveBeenCalledWith('Pushed to origin with tags, and created Github release');
-    expect(httpSpy).toHaveBeenCalledTimes(1);
+    await release({ version, changelog, token, issues, dryRun: false, prerelease });
+    expect(http.post).toHaveBeenCalledTimes(1);
   });
 });
