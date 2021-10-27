@@ -19,20 +19,20 @@ module.exports = {
     let patch = Number(numbers[2]);
 
     switch (releaseType) {
-    case 'major':
-      major += 1;
-      minor = 0;
-      patch = 0;
-      break;
-    case 'minor':
-      minor += 1;
-      patch = 0;
-      break;
-    case 'patch':
-      patch += 1;
-      break;
-    default:
-      throw new Error(`Invalid releaseType: ${releaseType}`);
+      case 'major':
+        major += 1;
+        minor = 0;
+        patch = 0;
+        break;
+      case 'minor':
+        minor += 1;
+        patch = 0;
+        break;
+      case 'patch':
+        patch += 1;
+        break;
+      default:
+        throw new Error(`Invalid releaseType: ${releaseType}`);
     }
 
     let newVersion = override || `${major}.${minor}.${patch}`;
@@ -61,7 +61,6 @@ module.exports = {
         const isPackageFile = file.endsWith('.json');
         const isPomFile = file.endsWith('.xml');
         const fullFilePath = `${cwd}/${file}`;
-
         if (isPackageFile) {
           const actualFile = require(fullFilePath);
           actualFile.version = newVersion;
