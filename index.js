@@ -47,7 +47,7 @@ async function main(input) {
   }
 }
 
-log.info(`Github Releaser (${version}) by Tom Hewitt ${process.cwd()}`);
+log.info(`Github Releaser (${version}) by Tom Hewitt`);
 const schema = {
   properties: {
     override: {
