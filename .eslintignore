@@ -1,5 +1,6 @@
 .env
 coverage
+coverage.js
 coverage.txt
 node_modules
 playground.js
