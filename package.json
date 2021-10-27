@@ -3,12 +3,13 @@
     "version": "1.5.1",
     "description": "Bump version, generate changelog with issue links, commit, tag, push and create Github release, all automatically.",
     "scripts": {
+		"coverage": "npm test >> coverage.txt",
         "lint": "eslint --ignore-path .gitignore .",
         "lint-fix": "npm run lint -- --fix",
         "main": "node index.js",
         "release": "node index.js && npm login && npm release",
         "reset-local-tags": "git tag -l | xargs git tag -d && git fetch --tags",
-        "test": "jest --coverage"
+		"test": "jest --coverage --coverageReporters='text' --detectOpenHandles"
     },
     "dependencies": {
         "@types/jest": "^26.0.19",
