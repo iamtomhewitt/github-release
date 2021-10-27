@@ -14,9 +14,9 @@ describe('git', () => {
   const version = '1.2.3';
 
   beforeEach(() => {
-    spyOn(log, 'success')
-    spyOn(log, 'dryRun')
-  })
+    spyOn(log, 'success');
+    spyOn(log, 'dryRun');
+  });
 
   it('does not perform git actions in dry run mode', async () => {
     await commitAndTag({ version, dryRun: true });

@@ -1,24 +1,23 @@
 const fs = require('fs');
-const log = require('../src/logger');
 const sinon = require('sinon');
 const util = require('util');
+const log = require('../src/logger');
 const { generateVersion, writeVersion } = require('../src/version');
+
 const { version } = require(`${process.cwd()}/package.json`);
 
 util.promisify = jest.fn();
 
 describe('version', () => {
-
   beforeEach(() => {
-    spyOn(log, 'success')
-    spyOn(log, 'dryRun')
+    spyOn(log, 'success');
+    spyOn(log, 'dryRun');
 
     sinon.restore();
     jest.clearAllMocks();
   });
 
   describe('generation', () => {
-
     it('generates version', async () => {
       const { newVersion } = await generateVersion({});
 
