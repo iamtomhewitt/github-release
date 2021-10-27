@@ -25,7 +25,7 @@ describe('release', () => {
   beforeEach(() => {
     spyOn(log, 'success');
     spyOn(log, 'dryRun');
-  })
+  });
 
   it('does not release in dry run mode', async () => {
     await release({

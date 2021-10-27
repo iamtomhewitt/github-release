@@ -1,15 +1,13 @@
 const conventionalRecommendedBump = require('conventional-recommended-bump');
+const fs = require('fs');
+const glob = require('glob');
+const { promisify } = require('util');
 
 const cwd = process.cwd();
 
-const fs = require('fs');
-
-const packageFile = require(`${cwd}/package.json`);
-const packageLockFile = require(`${cwd}/package-lock.json`);
-const { promisify } = require('util');
 const log = require('../logger');
 
-const { version } = packageFile;
+const { version } = require(`${cwd}/package.json`);
 
 module.exports = {
   async generateVersion({ override, append }) {
@@ -50,27 +48,32 @@ module.exports = {
 
   async writeVersion({ newVersion, dryRun }) {
     if (dryRun) {
-      log.dryRun(`Wrote ${newVersion} to package.json and package-lock.json`);
+      log.dryRun(`Wrote ${newVersion} to the above files!`);
       return;
     }
 
     try {
-      packageFile.version = newVersion;
-      packageLockFile.version = newVersion;
+      const filesToFind = '**/*(package.json|package-lock.json|pom.xml)';
+      const files = await glob.sync(filesToFind, { ignore: 'node_modules/**' });
 
-      await fs.promises.writeFile(`${cwd}/package.json`, JSON.stringify(packageFile, null, 4));
-      await fs.promises.writeFile(`${cwd}/package-lock.json`, JSON.stringify(packageLockFile, null, 4));
+      log.info(`Found ${files.length} files to update: \n\t${files.join(', \n\t')}`);
+      files.forEach(async (file) => {
+        const isPackageFile = file.endsWith('.json');
+        const isPomFile = file.endsWith('.xml');
+        const fullFilePath = `${cwd}/${file}`;
 
-      log.success(`Wrote ${newVersion} to package.json and package-lock.json`);
+        if (isPackageFile) {
+          const actualFile = require(fullFilePath);
+          actualFile.version = newVersion;
+          await fs.promises.writeFile(fullFilePath, JSON.stringify(actualFile, null, 4));
+        } else if (isPomFile) {
+          const pomContents = await fs.promises.readFile(fullFilePath);
+          const newPom = pomContents.toString().replace(`<version>${version}</version>`, `<version>${newVersion}</version>`);
+          await fs.promises.writeFile(fullFilePath, newPom);
+        }
+      });
 
-      const pomLocation = `${cwd}/pom.xml`;
-      if (fs.existsSync(pomLocation)) {
-        log.info('pom.xml detected');
-        const pomContents = await fs.promises.readFile(pomLocation);
-        const newPom = pomContents.toString().replace(`<version>${version}</version>`, `<version>${newVersion}</version>`);
-        await fs.promises.writeFile(pomLocation, newPom);
-        log.success(`Wrote ${newVersion} to pom.xml`);
-      }
+      log.success(`Wrote ${newVersion} to the above files!`);
     } catch (err) {
       throw new Error(err.message);
     }

@@ -19,6 +19,7 @@
         "current-git-branch": "^1.1.0",
         "dot-prop": ">=5.1.1",
         "figures": "^3.2.0",
+        "glob": "^7.2.0",
         "node-fetch": "^2.6.0",
         "prompt": "^1.0.0",
         "simple-git": "^2.12.0"
