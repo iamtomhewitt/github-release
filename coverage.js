@@ -1,5 +1,5 @@
 const fs = require('fs');
-const reports = ['./coverage.txt']
+const reports = ['/coverage.txt']
 let coverages = 0;
 
 const run = async () => {
