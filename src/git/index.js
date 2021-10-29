@@ -9,7 +9,7 @@ module.exports = {
       const cwd = process.cwd();
       const git = simpleGit(cwd);
       const filesToFind = '**/*(package.json|package-lock.json|pom.xml)';
-      const files = await glob.sync(filesToFind, { ignore: 'node_modules/**' });
+      const files = await glob.sync(filesToFind, { ignore: '**/*node_modules/**' });
 
       files.forEach(async (file) => {
         const filePath = `${cwd}/${file}`;

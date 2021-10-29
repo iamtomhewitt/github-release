@@ -49,7 +49,7 @@ module.exports = {
   async writeVersion({ newVersion, dryRun }) {
     try {
       const filesToFind = '**/*(package.json|package-lock.json|pom.xml)';
-      const files = await glob.sync(filesToFind, { ignore: 'node_modules/**' });
+      const files = await glob.sync(filesToFind, { ignore: '**/*node_modules/**' });
 
       log.info(`Found ${files.length} files to update: \n\t${files.join(', \n\t')}`);
       files.forEach(async (file) => {
