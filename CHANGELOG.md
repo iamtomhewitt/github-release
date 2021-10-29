@@ -1,3 +1,12 @@
+## 1.6.1 (29/10/2021) 
+
+
+### Issues in this release:
+
+* [#63](https://github.com/iamtomhewitt/github-releaser/issues/63) - Not all node_modules folders are ignored
+
+
+
 ## 1.6.0 (27/10/2021) 
 
 
